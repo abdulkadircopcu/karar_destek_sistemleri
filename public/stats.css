@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+.user-info {
+    width: 100%;
+    background-color: #f4f4f4;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.sidebar {
+    width: 20%; /* Menü sayfanın %20'sini kaplayacak */
+    background-color: #f4f4f4;
+    padding: 15px;
+    height: calc(100vh - 50px); /* Menü tam ekran yüksekliğinde olacak, üst bilgi alanını çıkar */
+    position: fixed; /* Menü sabitlenecek */
+    top: 50px; /* Üst bilgi alanının altında başla */
+    left: 0;
+}
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+}
+.content {
+    margin-left: 25%; /* Menü genişliği kadar boşluk bırak */
+    padding: 15px;
+    width: 70%; /* İçerik kısmı sayfanın %80'ini kaplayacak */
+    box-sizing: border-box; /* İçerik kısmının doğru şekilde yerleşmesi için */
+    margin-top: 50px; /* Üst bilgi alanının altında başla */
+}
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.stats div {
+    width: 30%;
+    background-color: #e0e0e0;
+    padding: 10px;
+    text-align: center;
+}
