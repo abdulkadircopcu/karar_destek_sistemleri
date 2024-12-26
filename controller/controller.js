@@ -2,26 +2,17 @@ const dbConn = require('../db/db_connection'); // db_connection.js dosyasını d
 
 // /api/stats endpoint'i için kontrol fonksiyonu
 exports.getStats = async (req, res) => {
-    const year = req.query.year || new Date().getFullYear(); // Yıl parametresini al, yoksa mevcut yılı kullan
     try {
-        console.log(`API /api/stats çağrıldı, yıl: ${year}`);
+        console.log(`API /api/stats çağrıldı`);
         const [results1] = await dbConn.query('SELECT SUM(adet) AS total FROM siparisler');
         const [results2] = await dbConn.query('SELECT COUNT(formalar.forma_id) AS count FROM formalar');
-        const [results3] = await dbConn.query('SELECT SUM(fiyat) AS total FROM siparisler WHERE YEAR(siparisler.tarih) = ?', [year]);
-        const [monthlyIncomeResults] = await dbConn.query('SELECT MONTH(tarih) AS month, SUM(fiyat) AS income FROM siparisler WHERE YEAR(tarih) = ? GROUP BY MONTH(tarih)', [year]);
+        const [yearlyIncome2024] = await dbConn.query('SELECT SUM(fiyat) AS total FROM siparisler WHERE YEAR(siparisler.tarih) = 2024');
         
-        // Aylık gelir verilerini hazırlayın
-        const monthlyIncome = Array(12).fill(0);
-        monthlyIncomeResults.forEach(row => {
-            monthlyIncome[row.month - 1] = row.income;
-        });
-
-        console.log("Veritabanı sorgu sonuçları:", results1, results2, results3, monthlyIncomeResults);
+        console.log("Veritabanı sorgu sonuçları:", results1, results2, yearlyIncome2024);
         res.json({
             stat1: results1[0].total,
             stat2: results2[0].count,
-            stat3: results3[0].total,
-            monthlyIncome: monthlyIncome // Aylık gelir verilerini ekleyin
+            stat3: yearlyIncome2024[0].total // 2024 yılı gelirini ekleyin
         });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);

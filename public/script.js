@@ -17,11 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    let myChart;
+    let salesChart;
+    let incomeChart;
 
     // İstatistikleri çekme
-    const fetchStats = (year) => {
-        fetch(`/api/stats?year=${year}`)
+    const fetchStats = (year, chartType) => {
+        const endpoint = chartType === 'sales' ? '/api/sales' : '/api/income';
+        fetch(`${endpoint}?year=${year}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Ağ yanıtı hatası');
@@ -34,42 +36,82 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('stat2').textContent = data.stat2;
                 document.getElementById('stat3').textContent = data.stat3;
 
-                // Sütun grafiği verilerini ayarla
-                const ctx = document.getElementById('myChart').getContext('2d');
-                if (myChart) {
-                    myChart.data.datasets[0].data = data.monthlyIncome;
-                    myChart.update();
-                } else {
-                    myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-                            datasets: [{
-                                label: 'Aylık Gelir',
-                                data: data.monthlyIncome, // Veritabanından gelen veriler
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
+                if (chartType === 'sales') {
+                    // Satış grafiği verilerini ayarla
+                    const ctx = document.getElementById('salesChart').getContext('2d');
+                    if (salesChart) {
+                        salesChart.data.datasets[0].data = data.monthlySales;
+                        salesChart.update();
+                    } else {
+                        salesChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+                                datasets: [{
+                                    label: 'Aylık Satışlar',
+                                    data: data.monthlySales, // Veritabanından gelen veriler
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                }]
                             },
-                            plugins: {
-                                datalabels: {
-                                    anchor: 'end',
-                                    align: 'end',
-                                    formatter: (value) => {
-                                        return value.toLocaleString(); // Değerleri formatla
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                },
+                                plugins: {
+                                    datalabels: {
+                                        anchor: 'end',
+                                        align: 'end',
+                                        formatter: (value) => {
+                                            return value.toLocaleString(); // Değerleri formatla
+                                        }
                                     }
                                 }
-                            }
-                        },
-                        plugins: [ChartDataLabels] // ChartDataLabels eklentisini kullan
-                    });
+                            },
+                            plugins: [ChartDataLabels] // ChartDataLabels eklentisini kullan
+                        });
+                    }
+                } else if (chartType === 'income') {
+                    // Gelir grafiği verilerini ayarla
+                    const ctx = document.getElementById('incomeChart').getContext('2d');
+                    if (incomeChart) {
+                        incomeChart.data.datasets[0].data = data.monthlyIncome;
+                        incomeChart.update();
+                    } else {
+                        incomeChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+                                datasets: [{
+                                    label: 'Aylık Gelir',
+                                    data: data.monthlyIncome, // Veritabanından gelen veriler
+                                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                                    borderColor: 'rgba(153, 102, 255, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                },
+                                plugins: {
+                                    datalabels: {
+                                        anchor: 'end',
+                                        align: 'end',
+                                        formatter: (value) => {
+                                            return value.toLocaleString(); // Değerleri formatla
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: [ChartDataLabels] // ChartDataLabels eklentisini kullan
+                        });
+                    }
                 }
             })
             .catch(error => {
@@ -78,18 +120,29 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (window.location.pathname === '/index.html') {
-        const yearSelect = document.getElementById('year-select');
-        yearSelect.addEventListener('change', (event) => {
-            fetchStats(event.target.value);
+        const yearSelectSales = document.getElementById('year-select-sales');
+        yearSelectSales.addEventListener('change', (event) => {
+            fetchStats(event.target.value, 'sales');
         });
 
-        const yearSelectStat3 = document.getElementById('year-select-stat3');
-        yearSelectStat3.addEventListener('change', (event) => {
-            fetchStats(event.target.value);
+        const yearSelectIncome = document.getElementById('year-select-income');
+        yearSelectIncome.addEventListener('change', (event) => {
+            fetchStats(event.target.value, 'income');
         });
 
         // Varsayılan yıl için istatistikleri çek
-        fetchStats(yearSelect.value);
+        fetchStats(yearSelectSales.value, 'sales');
+        fetchStats(yearSelectIncome.value, 'income');
+
+        // 2024 yılı gelirini sabit olarak göster
+        fetch('/api/stats')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('stat3').textContent = data.stat3;
+            })
+            .catch(error => {
+                console.error('API isteği hatası:', error);
+            });
     }
 
     // Giriş formunu işleme

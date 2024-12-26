@@ -32,25 +32,33 @@
                     <div id="stat2">0</div>
                 </div>
                 <div>
-                    <h3>Yıllık Gelir</h3>
-                    <select id="year-select-stat3">
-                        <option value="2024">2024</option>
-                        <option value="2023">2023</option>
-                        <option value="2022">2022</option>
-                        <option value="2021">2021</option>
-                    </select>
+                    <h3>2024 Yılı Geliri</h3>
                     <div id="stat3">0</div>
                 </div>
             </div>
             <div class="main-content">
-                <h3>Yıllara Göre Aylık Satışlar</h3> <!-- Başlık eklendi -->
-                <select id="year-select">
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
-                </select>
-                <canvas id="myChart" class="chart-canvas" width="400" height="200"></canvas> <!-- Sütun grafiği için canvas elemanı -->
+                <div class="chart-container">
+                    <div class="chart-item">
+                        <h3>Yıllara Göre Aylık Satışlar</h3>
+                        <select id="year-select-sales">
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                        </select>
+                        <canvas id="salesChart" class="chart-canvas" width="400" height="200"></canvas> <!-- Sütun grafiği için canvas elemanı -->
+                    </div>
+                    <div class="chart-item">
+                        <h3>Yıllara Göre Aylık Gelir</h3>
+                        <select id="year-select-income">
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                        </select>
+                        <canvas id="incomeChart" class="chart-canvas" width="400" height="200"></canvas> <!-- Sütun grafiği için canvas elemanı -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>

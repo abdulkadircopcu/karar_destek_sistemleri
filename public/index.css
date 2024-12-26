@@ -88,6 +88,13 @@ body {
     background-color: orangered; /* 2023 Yılı Geliri sayısının arka plan rengini kırmızı yaptık */
 }
 .chart-canvas {
-    width: 50% !important; /* Grafiğin genişliğini %100 oranında yap */
+    width: 100% !important; /* Grafiğin genişliğini %100 oranında yap */
     height: auto !important; /* Yüksekliği otomatik olarak ayarla */
+}
+.chart-container {
+    display: flex;
+    justify-content: space-between;
+}
+.chart-item {
+    width: 48%; /* Her bir grafiğin genişliğini %48 yap */
 }
