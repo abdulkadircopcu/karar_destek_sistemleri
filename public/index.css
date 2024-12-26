@@ -70,20 +70,24 @@ body {
     flex-direction: column; /* Elemanları dikey hizala */
 }
 .stats div:nth-child(1) {
-    background-color: #84ae8a; /* Toplam Sipariş Adedi divinin tamamının arka plan rengini yeşil yaptık */
+    background-color: darkkhaki; /* Toplam Sipariş Adedi divinin tamamının arka plan rengini yeşil yaptık */
 }
 .stats #stat1 {
-    background-color: #84ae8a; /* Toplam Sipariş Adedi sayısının arka plan rengini yeşil yaptık */
+    background-color:darkkhaki; /* Toplam Sipariş Adedi sayısının arka plan rengini yeşil yaptık */
 }
 .stats div:nth-child(2) {
-    background-color: #f4b400; /* Toplam Forma Adedi divinin tamamının arka plan rengini sarı yaptık */
+    background-color: #84ae8a; /* Toplam Forma Adedi divinin tamamının arka plan rengini sarı yaptık */
 }
 .stats #stat2 {
-    background-color: #f4b400; /* Toplam Forma Adedi sayısının arka plan rengini sarı yaptık */
+    background-color: #84ae8a; /* Toplam Forma Adedi sayısının arka plan rengini sarı yaptık */
 }
 .stats div:nth-child(3) {
-    background-color: #db4437; /* 2023 Yılı Geliri divinin tamamının arka plan rengini kırmızı yaptık */
+    background-color: orangered; /* 2023 Yılı Geliri divinin tamamının arka plan rengini kırmızı yaptık */
 }
 .stats #stat3 {
-    background-color: #db4437; /* 2023 Yılı Geliri sayısının arka plan rengini kırmızı yaptık */
+    background-color: orangered; /* 2023 Yılı Geliri sayısının arka plan rengini kırmızı yaptık */
+}
+.chart-canvas {
+    width: 50% !important; /* Grafiğin genişliğini %100 oranında yap */
+    height: auto !important; /* Yüksekliği otomatik olarak ayarla */
 }

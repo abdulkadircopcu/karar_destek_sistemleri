@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KDS Projesi</title>
     <link rel="stylesheet" href="./index.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js kütüphanesini ekleyin -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script> <!-- Chart.js Data Labels eklentisini ekleyin -->
 </head>
 <body>
     <div class="container">
@@ -15,8 +17,8 @@
             </div>
             <ul>
                 <li><a href="./index.html">Ana Sayfa</a></li>
-                <li><a href="./satislar.html">İstatistikler</a></li>
-                <li><a href="#">Menü 3</a></li>
+                <li><a href="./satislar.html">Satışlar</a></li>
+                <li><a href="./tahmin.html">Tahminleme</a></li>
             </ul>
         </div>
         <div class="content">
@@ -30,12 +32,25 @@
                     <div id="stat2">0</div>
                 </div>
                 <div>
-                    <h3>2024 Yılı Geliri</h3>
+                    <h3>Yıllık Gelir</h3>
+                    <select id="year-select-stat3">
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                    </select>
                     <div id="stat3">0</div>
                 </div>
             </div>
             <div class="main-content">
-                İçerik buraya gelecek.
+                <h3>Yıllara Göre Aylık Satışlar</h3> <!-- Başlık eklendi -->
+                <select id="year-select">
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                </select>
+                <canvas id="myChart" class="chart-canvas" width="400" height="200"></canvas> <!-- Sütun grafiği için canvas elemanı -->
             </div>
         </div>
     </div>
