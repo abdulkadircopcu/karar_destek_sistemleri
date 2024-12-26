@@ -2,14 +2,17 @@ const dbConn = require('../db/db_connection'); // db_connection.js dosyasını d
 
 // /api/stats endpoint'i için kontrol fonksiyonu
 exports.getStats = async (req, res) => {
+    const year = 2024; // Yıl parametresini 2024 olarak sabitle
     try {
-        console.log("API /api/stats çağrıldı");
-        const [results] = await dbConn.query('SELECT COUNT(siparis_id) AS count FROM siparisler');
-        console.log("Veritabanı sorgu sonuçları:", results);
+        console.log(`API /api/stats çağrıldı, yıl: ${year}`);
+        const [results1] = await dbConn.query('SELECT SUM(adet) AS total FROM siparisler');
+        const [results2] = await dbConn.query('SELECT COUNT(formalar.forma_id) AS count FROM formalar');
+        const [results3] = await dbConn.query('SELECT SUM(fiyat) AS total FROM siparisler WHERE YEAR(siparisler.tarih) = ?', [year]);
+        console.log("Veritabanı sorgu sonuçları:", results1, results2, results3);
         res.json({
-            stat1: results[0].count,
-            stat2: results[0].count, // Örnek olarak aynı veriyi kullanıyoruz
-            stat3: results[0].count  // Örnek olarak aynı veriyi kullanıyoruz
+            stat1: results1[0].total,
+            stat2: results2[0].count,
+            stat3: results3[0].total
         });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);

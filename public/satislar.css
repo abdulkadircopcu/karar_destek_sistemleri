@@ -6,7 +6,7 @@ body {
     display: flex;
     flex-direction: column;
 }
-.menu {
+.sidebar {
     width: 20%; /* Menü sayfanın %20'sini kaplayacak */
     background-color: #84ae8a;
     padding: 15px;
@@ -30,16 +30,16 @@ body {
     height: auto;
     margin-bottom: 10px; /* Kullanıcı adı ve soyadı ile logo arasındaki boşluk */
 }
-.menu ul {
+.sidebar ul {
     list-style-type: none;
     padding: 0;
     width: 100%;
     margin-top: 40px; /* Menü elemanlarını biraz aşağıya al */
 }
-.menu ul li {
+.sidebar ul li {
     margin-bottom: 50px; /* Menü elemanları arasındaki boşluğu artır */
 }
-.menu ul li a {
+.sidebar ul li a {
     text-decoration: none;
     color: #333;
     display: block;
@@ -68,22 +68,4 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column; /* Elemanları dikey hizala */
-}
-.stats div:nth-child(1) {
-    background-color: #84ae8a; /* Toplam Sipariş Adedi divinin tamamının arka plan rengini yeşil yaptık */
-}
-.stats #stat1 {
-    background-color: #84ae8a; /* Toplam Sipariş Adedi sayısının arka plan rengini yeşil yaptık */
-}
-.stats div:nth-child(2) {
-    background-color: #f4b400; /* Toplam Forma Adedi divinin tamamının arka plan rengini sarı yaptık */
-}
-.stats #stat2 {
-    background-color: #f4b400; /* Toplam Forma Adedi sayısının arka plan rengini sarı yaptık */
-}
-.stats div:nth-child(3) {
-    background-color: #db4437; /* 2023 Yılı Geliri divinin tamamının arka plan rengini kırmızı yaptık */
-}
-.stats #stat3 {
-    background-color: #db4437; /* 2023 Yılı Geliri sayısının arka plan rengini kırmızı yaptık */
 }

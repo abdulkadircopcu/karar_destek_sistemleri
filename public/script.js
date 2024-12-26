@@ -1,19 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Sayfa yüklendi");
 
-    // Kullanıcı bilgilerini çekme
-    fetch('/api/user?username=your_username') // Burada 'your_username' yerine gerçek kullanıcı adını kullanın
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('user-name').textContent = `${data.ad} ${data.soyad}`;
-        })
-        .catch(error => {
-            console.error('Kullanıcı bilgileri çekilemedi:', error);
-        });
+    // Kullanıcı bilgilerini yerel depolamadan al
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        if (window.location.pathname !== '/login.html') {
+            const userNameElement = document.getElementById('user-name');
+            if (userNameElement) {
+                userNameElement.textContent = `${user.ad} ${user.soyad}`;
+            }
+        }
+    } else {
+        // Kullanıcı giriş yapmamışsa login.html sayfasına yönlendir
+        if (window.location.pathname !== '/login.html') {
+            window.location.href = 'login.html';
+        }
+    }
 
     // İstatistikleri çekme
-    if (window.location.pathname === '/stats.html') {
-        fetch('/api/stats')
+    if (window.location.pathname === '/index.html') {
+        fetch('/api/stats?year=2024')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Ağ yanıtı hatası');
@@ -49,7 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    window.location.href = 'index.html';
+                    // Kullanıcı bilgilerini yerel depolamaya kaydet
+                    fetch(`/api/user?username=${username}`)
+                        .then(response => response.json())
+                        .then(userData => {
+                            localStorage.setItem('user', JSON.stringify(userData));
+                            window.location.href = 'index.html';
+                        });
                 } else {
                     document.getElementById('message').textContent = data.message;
                 }
