@@ -8,5 +8,7 @@ router.get('/api/income', controller.getIncome);
 router.get('/api/stats', controller.getStats);
 router.post('/api/login', controller.login);
 router.get('/api/user', controller.getUser);
+router.get('/api/team-sales', controller.getTeamSales);
+router.get('/api/size-sales', controller.getSizeSales);
 
 module.exports = router;

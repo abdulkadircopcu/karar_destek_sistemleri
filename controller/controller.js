@@ -4,15 +4,19 @@ const dbConn = require('../db/db_connection'); // db_connection.js dosyasını d
 exports.getStats = async (req, res) => {
     try {
         console.log(`API /api/stats çağrıldı`);
-        const [results1] = await dbConn.query('SELECT SUM(adet) AS total FROM siparisler');
-        const [results2] = await dbConn.query('SELECT COUNT(formalar.forma_id) AS count FROM formalar');
-        const [yearlyIncome2024] = await dbConn.query('SELECT SUM(fiyat) AS total FROM siparisler WHERE YEAR(siparisler.tarih) = 2024');
-        
-        console.log("Veritabanı sorgu sonuçları:", results1, results2, yearlyIncome2024);
+
+        // Statik sorgular
+        const [results1] = await dbConn.query('SELECT SUM(adet) AS totalOrders FROM siparisler'); // Toplam sipariş adedi
+        const [results2] = await dbConn.query('SELECT COUNT(forma_id) AS totalForms FROM formalar'); // Toplam forma sayısı
+        const [results3] = await dbConn.query('SELECT SUM(fiyat) AS totalIncome FROM siparisler WHERE YEAR(tarih) = 2024'); // 2024 yılı geliri
+
+        console.log("Veritabanı sorgu sonuçları:", results1, results2, results3);
+
+        // JSON döndür
         res.json({
-            stat1: results1[0].total,
-            stat2: results2[0].count,
-            stat3: yearlyIncome2024[0].total // 2024 yılı gelirini ekleyin
+            totalOrders: results1[0].totalOrders || 0, // Toplam sipariş adedi
+            totalForms: results2[0].totalForms || 0,   // Toplam forma sayısı
+            totalIncome: results3[0].totalIncome || 0 // 2024 yılı geliri
         });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);
@@ -25,24 +29,19 @@ exports.getSales = async (req, res) => {
     const year = req.query.year || new Date().getFullYear(); // Yıl parametresini al, yoksa mevcut yılı kullan
     try {
         console.log(`API /api/sales çağrıldı, yıl: ${year}`);
-        const [results1] = await dbConn.query('SELECT SUM(adet) AS total FROM siparisler');
-        const [results2] = await dbConn.query('SELECT COUNT(formalar.forma_id) AS count FROM formalar');
-        const [results3] = await dbConn.query('SELECT SUM(adet) AS total FROM siparisler WHERE YEAR(siparisler.tarih) = ?', [year]);
-        const [monthlySalesResults] = await dbConn.query('SELECT MONTH(tarih) AS month, SUM(adet) AS sales FROM siparisler WHERE YEAR(tarih) = ? GROUP BY MONTH(tarih)', [year]);
-        
+        const [monthlySalesResults] = await dbConn.query(
+            'SELECT MONTH(tarih) AS month, SUM(adet) AS sales FROM siparisler WHERE YEAR(tarih) = ? GROUP BY MONTH(tarih)',
+            [year]
+        );
+
         // Aylık satış verilerini hazırlayın
         const monthlySales = Array(12).fill(0);
         monthlySalesResults.forEach(row => {
             monthlySales[row.month - 1] = row.sales;
         });
 
-        console.log("Veritabanı sorgu sonuçları:", results1, results2, results3, monthlySalesResults);
-        res.json({
-            stat1: results1[0].total,
-            stat2: results2[0].count,
-            stat3: results3[0].total,
-            monthlySales: monthlySales // Aylık satış verilerini ekleyin
-        });
+        console.log("Aylık satış verileri:", monthlySales);
+        res.json({ monthlySales });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);
         res.status(500).send('Veritabanı hatası');
@@ -54,24 +53,19 @@ exports.getIncome = async (req, res) => {
     const year = req.query.year || new Date().getFullYear(); // Yıl parametresini al, yoksa mevcut yılı kullan
     try {
         console.log(`API /api/income çağrıldı, yıl: ${year}`);
-        const [results1] = await dbConn.query('SELECT SUM(adet) AS total FROM siparisler');
-        const [results2] = await dbConn.query('SELECT COUNT(formalar.forma_id) AS count FROM formalar');
-        const [results3] = await dbConn.query('SELECT SUM(fiyat) AS total FROM siparisler WHERE YEAR(siparisler.tarih) = ?', [year]);
-        const [monthlyIncomeResults] = await dbConn.query('SELECT MONTH(tarih) AS month, SUM(fiyat) AS income FROM siparisler WHERE YEAR(tarih) = ? GROUP BY MONTH(tarih)', [year]);
-        
+        const [monthlyIncomeResults] = await dbConn.query(
+            'SELECT MONTH(tarih) AS month, SUM(fiyat) AS income FROM siparisler WHERE YEAR(tarih) = ? GROUP BY MONTH(tarih)',
+            [year]
+        );
+
         // Aylık gelir verilerini hazırlayın
         const monthlyIncome = Array(12).fill(0);
         monthlyIncomeResults.forEach(row => {
             monthlyIncome[row.month - 1] = row.income;
         });
 
-        console.log("Veritabanı sorgu sonuçları:", results1, results2, results3, monthlyIncomeResults);
-        res.json({
-            stat1: results1[0].total,
-            stat2: results2[0].count,
-            stat3: results3[0].total,
-            monthlyIncome: monthlyIncome // Aylık gelir verilerini ekleyin
-        });
+        console.log("Aylık gelir verileri:", monthlyIncome);
+        res.json({ monthlyIncome });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);
         res.status(500).send('Veritabanı hatası');
@@ -103,6 +97,31 @@ exports.getUser = async (req, res) => {
         } else {
             res.status(404).send('Kullanıcı bulunamadı');
         }
+    } catch (err) {
+        console.error("Veritabanı sorgu hatası:", err);
+        res.status(500).send('Veritabanı hatası');
+    }
+};
+
+exports.getTeamSales = async (req, res) => {
+    const year = req.query.year || new Date().getFullYear(); // Yıl parametresini al, yoksa mevcut yılı kullan
+    try {
+        const [results] = await dbConn.query('SELECT takim_ad, SUM(adet) AS sales FROM takimlar LEFT JOIN formalar ON takimlar.takim_id=formalar.takim_id LEFT JOIN siparisler ON formalar.forma_id=siparisler.forma_id WHERE YEAR(siparisler.tarih) = ? GROUP BY takim_ad', [year]);
+        const teams = results.map(row => row.takim_ad);
+        const sales = results.map(row => row.sales);
+        res.json({ teams, sales });
+    } catch (err) {
+        console.error("Veritabanı sorgu hatası:", err);
+        res.status(500).send('Veritabanı hatası');
+    }
+};
+
+exports.getSizeSales = async (req, res) => {
+    try {
+        const [results] = await dbConn.query('SELECT beden, SUM(adet) AS sales FROM bedenler LEFT JOIN siparisler ON siparisler.beden_id=bedenler.beden_id GROUP BY beden');
+        const sizes = results.map(row => row.beden);
+        const sales = results.map(row => row.sales);
+        res.json({ sizes, sales });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);
         res.status(500).send('Veritabanı hatası');

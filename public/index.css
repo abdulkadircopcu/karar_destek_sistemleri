@@ -82,10 +82,10 @@ body {
     background-color: #84ae8a; /* Toplam Forma Adedi sayısının arka plan rengini sarı yaptık */
 }
 .stats div:nth-child(3) {
-    background-color: orangered; /* 2023 Yılı Geliri divinin tamamının arka plan rengini kırmızı yaptık */
+    background-color: orangered; /* 2024 Yılı Geliri divinin tamamının arka plan rengini kırmızı yaptık */
 }
 .stats #stat3 {
-    background-color: orangered; /* 2023 Yılı Geliri sayısının arka plan rengini kırmızı yaptık */
+    background-color: orangered; /* 2024 Yılı Geliri sayısının arka plan rengini kırmızı yaptık */
 }
 .chart-canvas {
     width: 100% !important; /* Grafiğin genişliğini %100 oranında yap */
@@ -97,4 +97,10 @@ body {
 }
 .chart-item {
     width: 48%; /* Her bir grafiğin genişliğini %48 yap */
+    position: relative; /* Başlıkları ortalamak için gerekli */
+    margin-top: 40px; /* Başlık ile grafik arasındaki boşluk */
+}
+.chart-title {
+    text-align: center;
+    margin-bottom: 10px; /* Başlık ile grafik arasındaki boşluk */
 }
