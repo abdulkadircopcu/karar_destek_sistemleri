@@ -69,3 +69,26 @@ body {
     align-items: center;
     flex-direction: column; /* Elemanları dikey hizala */
 }
+
+.chart-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.chart-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 48%; /* Her bir grafiğin genişliğini %48 yap */
+}
+
+.chart-title {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.half-size {
+    width: 100% !important; /* Grafiğin genişliğini %100 oranında yap */
+    height: auto !important; /* Yüksekliği otomatik olarak ayarla */
+}

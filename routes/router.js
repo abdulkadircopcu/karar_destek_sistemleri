@@ -10,5 +10,7 @@ router.post('/api/login', controller.login);
 router.get('/api/user', controller.getUser);
 router.get('/api/team-sales', controller.getTeamSales);
 router.get('/api/size-sales', controller.getSizeSales);
+router.get('/api/pie-chart-data', controller.getPieChartData);
+router.get('/api/new-pie-chart-data', controller.getNewPieChartData);
 
 module.exports = router;

@@ -127,3 +127,28 @@ exports.getSizeSales = async (req, res) => {
         res.status(500).send('Veritabanı hatası');
     }
 };
+
+exports.getPieChartData = async (req, res) => {
+    try {
+        const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN sube ON sube.il_id=iller.il_id LEFT JOIN siparisler ON siparisler.il_id=iller.il_id GROUP BY iller.il_id');
+        const labels = results.map(row => row.sehir);
+        const values = results.map(row => row.toplam);
+        res.json({ labels, values });
+    } catch (err) {
+        console.error("Veritabanı sorgu hatası:", err);
+        res.status(500).send('Veritabanı hatası');
+    }
+};
+
+exports.getNewPieChartData = async (req, res) => {
+    try {
+        // Veritabanı sorgusunu buraya yazın
+        const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN sube ON sube.il_id=iller.il_id LEFT JOIN siparisler ON siparisler.il_id=iller.il_id WHERE sube.sube_id IS NULL GROUP BY iller.il_id');
+        const labels = results.map(row => row.sehir);
+        const values = results.map(row => row.toplam);
+        res.json({ labels, values });
+    } catch (err) {
+        console.error("Veritabanı sorgu hatası:", err);
+        res.status(500).send('Veritabanı hatası');
+    }
+};

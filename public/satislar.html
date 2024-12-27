@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satışlar</title>
     <link rel="stylesheet" href="satislar.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js kütüphanesini ekleyin -->
 </head>
 <body>
     <div class="sidebar">
@@ -19,14 +20,17 @@
         </ul>
     </div>
     <div class="content">
-        <h1>Welcome to the Stats Page</h1>
-        <p>This is a simple HTML page with a sidebar containing 3 menu items.</p>
-        <div class="stats">
-            <div id="stat1">0</div>
-            <div id="stat2">0</div>
-            <div id="stat3">0</div>
+        <div class="chart-container">
+            <div class="chart-item">
+                <h3 class="chart-title">İllere Göre Satış Sayısı</h3>
+                <canvas id="pieChart" class="chart-canvas half-size" width="200" height="100"></canvas>
+            </div>
+            <div class="chart-item">
+                <h3 class="chart-title">Şubesi Olmayan İllerdeki Satış Sayısı</h3>
+                <canvas id="newPieChart" class="chart-canvas half-size" width="200" height="100"></canvas>
+            </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js"></script> <!-- script.js dosyasını dahil edin -->
 </body>
 </html>
