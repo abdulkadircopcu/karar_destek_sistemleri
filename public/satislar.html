@@ -35,8 +35,24 @@
         </div>
         <div class="chart-container sales">
             <div class="chart-item">
-                <h3 class="chart-title">İllere Göre Satış Grafiği</h3>
+                <h3 class="chart-title">İllere Göre Satış Grafiği(Yıllık)</h3>
+                <select id="year-select-city-sales">
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
                 <canvas id="citySalesChart" class="chart-canvas" width="400" height="200"></canvas>
+            </div>
+            <div class="chart-item">
+                <h3 class="chart-title">Şubesi Olmayan İllere Göre Satış Grafiği(Yıllık)</h3>
+                <select id="year-select-city-sales-without-branch">
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+                <canvas id="citySalesChartWithoutBranch" class="chart-canvas" width="400" height="200"></canvas>
             </div>
         </div>
     </div>

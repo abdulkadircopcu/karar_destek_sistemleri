@@ -112,3 +112,7 @@ body {
 .chart-container.sales {
     margin-left: 30px; /* İllere göre satış grafiğini 30px sağa kaydır */
 }
+
+#year-select-city-sales {
+    margin-bottom: 10px; /* Select elementinin altına boşluk ekle */
+}

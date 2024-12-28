@@ -24,43 +24,81 @@ document.addEventListener('DOMContentLoaded', () => {
     let pieChart;
     let newPieChart;
     let citySalesChart;
+    let citySalesChartWithoutBranch;
 
-        // İllere göre satış verilerini al
-        const fetchCitySalesData = () => {
-            fetch('/api/city-sales-data')
-                .then(response => response.json())
-                .then(data => {
-                    const ctx = document.getElementById('citySalesChart').getContext('2d');
-                    if (citySalesChart) {
-                        citySalesChart.data.datasets[0].data = data.values;
-                        citySalesChart.update();
-                    } else {
-                        citySalesChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: data.labels,
-                                datasets: [{
-                                    label: 'İllere Göre Satış Sayısı',
-                                    data: data.values,
-                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                    borderColor: 'rgba(54, 162, 235, 1)',
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
+    // İllere göre satış verilerini al
+    const fetchCitySalesData = (year) => {
+        fetch(`/api/city-sales-data?year=${year}`)
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('citySalesChart').getContext('2d');
+                if (citySalesChart) {
+                    citySalesChart.data.datasets[0].data = data.values;
+                    citySalesChart.update();
+                } else {
+                    citySalesChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'İllere Göre Satış Sayısı',
+                                data: data.values,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
                                 }
                             }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('İllere göre satış verisi alınamadı:', error);
-                });
-        };
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('İllere göre satış verisi alınamadı:', error);
+            });
+    };
+
+    // Şubesi olmayan illere göre satış verilerini al
+    const fetchCitySalesDataWithoutBranch = (year) => {
+        fetch(`/api/city-sales-data-without-branch?year=${year}`)
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('citySalesChartWithoutBranch').getContext('2d');
+                if (citySalesChartWithoutBranch) {
+                    citySalesChartWithoutBranch.data.datasets[0].data = data.values;
+                    citySalesChartWithoutBranch.update();
+                } else {
+                    citySalesChartWithoutBranch = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Şubesi Olmayan İllere Göre Satış Sayısı',
+                                data: data.values,
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Şubesi olmayan illere göre satış verisi alınamadı:', error);
+            });
+    };
 
     
     // Pasta grafiği verilerini al
@@ -263,7 +301,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname === '/satislar.html') {
         fetchPieChartData();
         fetchNewPieChartData();
-        fetchCitySalesData(); 
+        const yearSelectCitySales = document.getElementById('year-select-city-sales');
+        yearSelectCitySales.addEventListener('change', (event) => {
+            fetchCitySalesData(event.target.value);
+        });
+        fetchCitySalesData(yearSelectCitySales.value); // Varsayılan yıl için verileri al
+
+        const yearSelectCitySalesWithoutBranch = document.getElementById('year-select-city-sales-without-branch');
+        yearSelectCitySalesWithoutBranch.addEventListener('change', (event) => {
+            fetchCitySalesDataWithoutBranch(event.target.value);
+        });
+        fetchCitySalesDataWithoutBranch(yearSelectCitySalesWithoutBranch.value); // Varsayılan yıl için verileri al
     }
 
 

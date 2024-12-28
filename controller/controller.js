@@ -156,8 +156,23 @@ exports.getNewPieChartData = async (req, res) => {
 };
 
 exports.getCitySalesData = async (req, res) => {
+    const year = req.query.year; // Yıl parametresini al
     try {
-        const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN siparisler ON siparisler.il_id=iller.il_id GROUP BY iller.il_id');
+        const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN siparisler ON siparisler.il_id=iller.il_id WHERE YEAR(siparisler.tarih) = ? GROUP BY iller.il_id ORDER BY toplam DESC', [year]);
+        console.log("Sorgu Sonuçları:", results);
+        const labels = results.map(row => row.sehir);
+        const values = results.map(row => parseInt(row.toplam, 10)); // Verileri int'e çevir
+        res.json({ labels, values });
+    } catch (err) {
+        console.error("Veritabanı sorgu hatası:", err);
+        res.status(500).send('Veritabanı hatası');
+    }
+};
+
+exports.getCitySalesDataWithoutBranch = async (req, res) => {
+    const year = req.query.year; // Yıl parametresini al
+    try {
+        const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN siparisler ON siparisler.il_id=iller.il_id LEFT JOIN sube ON sube.il_id=iller.il_id WHERE sube.sube_id IS NULL AND YEAR(siparisler.tarih) = ? GROUP BY iller.il_id ORDER BY toplam DESC', [year]);
         console.log("Sorgu Sonuçları:", results);
         const labels = results.map(row => row.sehir);
         const values = results.map(row => parseInt(row.toplam, 10)); // Verileri int'e çevir

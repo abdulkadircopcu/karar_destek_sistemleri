@@ -1,0 +1,61 @@
+body {
+    background-color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar {
+    width: 20%; /* Menü sayfanın %20'sini kaplayacak */
+    background-color: #84ae8a;
+    padding: 15px;
+    height: 100vh; /* Menü tam ekran yüksekliğinde olacak */
+    position: fixed; /* Menü sabitlenecek */
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-info {
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; /* Elemanları dikey hizala */
+    align-items: center; /* Elemanları ortala */
+}
+
+.user-info .logo {
+    width: 180px; /* Logonun genişliği */
+    height: auto;
+    margin-bottom: 10px; /* Kullanıcı adı ve soyadı ile logo arasındaki boşluk */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    margin-top: 40px; /* Menü elemanlarını biraz aşağıya al */
+}
+
+.sidebar ul li {
+    margin-bottom: 50px; /* Menü elemanları arasındaki boşluğu artır */
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    text-align: center;
+}
+
+.content {
+    margin-left: 25%; /* Menü genişliği kadar boşluk bırak */
+    padding: 15px;
+    width: 70%; /* İçerik kısmı sayfanın %80'ini kaplayacak */
+    box-sizing: border-box; /* İçerik kısmının doğru şekilde yerleşmesi için */
+    margin-top: 50px; /* Üst bilgi alanının altında başla */
+}
