@@ -523,26 +523,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 2024 verilerine göre 2025 tahminini al
-    const fetchCitySalesPrediction = () => {
+    const fetchCitySalesPrediction = (percentage) => {
         fetch('/api/city-sales-prediction')
             .then(response => response.json())
             .then(data => {
                 const ctx = document.getElementById('predictionChart').getContext('2d');
+                const predictedValues = data.values2024.map(value => Math.round(value * (1 + percentage / 100)));
                 if (predictionChart) {
-                    predictionChart.data.datasets[0].data = data.values;
+                    predictionChart.data.datasets[0].data = data.values2024;
+                    predictionChart.data.datasets[1].data = predictedValues;
                     predictionChart.update();
                 } else {
                     predictionChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
                             labels: data.labels,
-                            datasets: [{
-                                label: '2025 Tahmini',
-                                data: data.values,
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                borderWidth: 1
-                            }]
+                            datasets: [
+                                {
+                                    label: '2024 Satış Verileri',
+                                    data: data.values2024,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: '2025 Tahmini',
+                                    data: predictedValues,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
                         },
                         options: {
                             scales: {
@@ -560,7 +571,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (window.location.pathname === '/tahmin.html') {
-        fetchCitySalesPrediction(); // Tahmin verilerini al
+        const predictionInput = document.getElementById('prediction-input');
+        const updatePredictionButton = document.getElementById('update-prediction');
+
+        updatePredictionButton.addEventListener('click', () => {
+            const percentage = parseInt(predictionInput.value, 0);
+            if (!isNaN(percentage)) {
+                fetchCitySalesPrediction(percentage);
+            } else {
+                alert('Lütfen geçerli bir yüzde değeri girin.');
+            }
+        });
+
+        fetchCitySalesPrediction(0); // Varsayılan yüzde değeri ile tahmin verilerini al
     }
 
     // Giriş formunu işleme

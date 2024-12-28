@@ -59,3 +59,18 @@ body {
     box-sizing: border-box; /* İçerik kısmının doğru şekilde yerleşmesi için */
     margin-top: 50px; /* Üst bilgi alanının altında başla */
 }
+
+#update-prediction {
+    background-color: #007bff; /* Mavi renk */
+    color: white;
+    border: none;
+    padding: 9px 18px; /* %10 oranında küçültülmüş padding */
+    border-radius: 12px; /* Yuvarlak köşeler */
+    cursor: pointer;
+    font-size: 14.4px; /* %10 oranında küçültülmüş font-size */
+    margin-top: 10px;
+}
+
+#update-prediction:hover {
+    background-color: #0056b3; /* Hover durumunda daha koyu mavi */
+}
