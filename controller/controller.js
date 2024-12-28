@@ -182,3 +182,20 @@ exports.getCitySalesDataWithoutBranch = async (req, res) => {
         res.status(500).send('Veritabanı hatası');
     }
 };
+
+exports.getCitySalesPrediction = async (req, res) => {
+    try {
+        const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN siparisler ON siparisler.il_id=iller.il_id WHERE YEAR(siparisler.tarih) = 2024 GROUP BY iller.il_id ORDER BY toplam DESC');
+        console.log("Sorgu Sonuçları:", results);
+        const labels = results.map(row => row.sehir);
+        const values = results.map(row => parseInt(row.toplam, 10)); // Verileri int'e çevir
+
+        // Basit bir tahmin algoritması: Her ilin satışlarını %10 artırarak tahmin yapalım
+        const predictedValues = values.map(value => Math.round(value * 1.1));
+
+        res.json({ labels, values: predictedValues });
+    } catch (err) {
+        console.error("Veritabanı sorgu hatası:", err);
+        res.status(500).send('Veritabanı hatası');
+    }
+};
