@@ -74,16 +74,16 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    margin-left: -80px; /* Container'ı 60px sola kaydır */
+    margin-left: -80px; /* Container'ı 80px sola kaydır */
 }
 
 .chart-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 45%; /* Her bir grafiğin genişliğini %48 yap */
+    width: 45%; /* Her bir grafiğin genişliğini %45 yap */
     position: relative; /* En çok satış yapılan 3 ili sağa yerleştirmek için gerekli */
-    margin-right: 8%;
+    margin-right: 8%; /* İki grafiğin arasını ayırmak için margin ekle */
 }
 
 .chart-title {
@@ -107,4 +107,8 @@ body {
     top: 50%;
     transform: translateY(-50%);
     text-align: left;
+}
+
+.chart-container.sales {
+    margin-left: 30px; /* İllere göre satış grafiğini 30px sağa kaydır */
 }

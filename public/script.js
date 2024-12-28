@@ -23,7 +23,46 @@ document.addEventListener('DOMContentLoaded', () => {
     let sizeSalesChart;
     let pieChart;
     let newPieChart;
+    let citySalesChart;
 
+        // İllere göre satış verilerini al
+        const fetchCitySalesData = () => {
+            fetch('/api/city-sales-data')
+                .then(response => response.json())
+                .then(data => {
+                    const ctx = document.getElementById('citySalesChart').getContext('2d');
+                    if (citySalesChart) {
+                        citySalesChart.data.datasets[0].data = data.values;
+                        citySalesChart.update();
+                    } else {
+                        citySalesChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: data.labels,
+                                datasets: [{
+                                    label: 'İllere Göre Satış Sayısı',
+                                    data: data.values,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('İllere göre satış verisi alınamadı:', error);
+                });
+        };
+
+    
     // Pasta grafiği verilerini al
     const fetchPieChartData = () => {
         fetch('/api/pie-chart-data')
@@ -80,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
                                         const percentage = ((value / total) * 100).toFixed(2);
                                         const sortedData = context.chart.data.datasets[0].data.slice().sort((a, b) => b - a);
-                                        const top5Values = sortedData.slice(0, 5);
+                                        const top5Values = sortedData.slice(0, 7);
                                         if (top5Values.includes(value)) {
                                             return `${context.chart.data.labels[context.dataIndex]}: ${percentage}%`;
                                         }
@@ -178,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
                                         const percentage = ((value / total) * 100).toFixed(2);
                                         const sortedData = context.chart.data.datasets[0].data.slice().sort((a, b) => b - a);
-                                        const top5Values = sortedData.slice(0, 5);
+                                        const top5Values = sortedData.slice(0, 6);
                                         if (top5Values.includes(value)) {
                                             return `${context.chart.data.labels[context.dataIndex]}: ${percentage}%`;
                                         }
@@ -224,7 +263,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname === '/satislar.html') {
         fetchPieChartData();
         fetchNewPieChartData();
+        fetchCitySalesData(); 
     }
+
 
 
     // Yıllara göre satış ve gelir verilerini al

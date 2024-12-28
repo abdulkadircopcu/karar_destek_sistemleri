@@ -12,5 +12,6 @@ router.get('/api/team-sales', controller.getTeamSales);
 router.get('/api/size-sales', controller.getSizeSales);
 router.get('/api/pie-chart-data', controller.getPieChartData);
 router.get('/api/new-pie-chart-data', controller.getNewPieChartData);
+router.get('/api/city-sales-data', controller.getCitySalesData); // Yeni API endpoint'i ekleyin
 
 module.exports = router;
