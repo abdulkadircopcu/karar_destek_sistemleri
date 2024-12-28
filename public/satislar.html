@@ -6,6 +6,7 @@
     <title>Satışlar</title>
     <link rel="stylesheet" href="satislar.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js kütüphanesini ekleyin -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script> <!-- Chart.js Data Labels eklentisini ekleyin -->
 </head>
 <body>
     <div class="sidebar">
@@ -23,11 +24,13 @@
         <div class="chart-container">
             <div class="chart-item">
                 <h3 class="chart-title">İllere Göre Satış Sayısı</h3>
-                <canvas id="pieChart" class="chart-canvas half-size" width="200" height="100"></canvas>
+                <canvas id="pieChart" class="chart-canvas quarter-size" width="150" height="75"></canvas>
+                <div id="top3Cities" class="top3"></div>
             </div>
             <div class="chart-item">
                 <h3 class="chart-title">Şubesi Olmayan İllerdeki Satış Sayısı</h3>
-                <canvas id="newPieChart" class="chart-canvas half-size" width="200" height="100"></canvas>
+                <canvas id="newPieChart" class="chart-canvas quarter-size" width="150" height="75"></canvas>
+                <div id="top3CitiesNew" class="top3"></div>
             </div>
         </div>
     </div>

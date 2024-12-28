@@ -24,6 +24,209 @@ document.addEventListener('DOMContentLoaded', () => {
     let pieChart;
     let newPieChart;
 
+    // Pasta grafiği verilerini al
+    const fetchPieChartData = () => {
+        fetch('/api/pie-chart-data')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('pieChart').getContext('2d');
+                if (pieChart) {
+                    pieChart.data.datasets[0].data = data.values;
+                    pieChart.update();
+                } else {
+                    pieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Pasta Grafiği',
+                                data: data.values,
+                                backgroundColor: [
+                                    'rgba(0, 100, 0, 0.8)', // Koyu Yeşil
+                                    'rgba(255, 140, 0, 0.8)', // Turuncu
+                                    'rgba(255, 69, 0, 0.8)', // Kırmızı
+                                    'rgba(255, 0, 0, 0.8)', // Koyu Kırmızı
+                                    'rgba(128, 0, 0, 0.8)', // Çok Koyu Kırmızı
+                                    'rgba(75, 0, 130, 0.8)', // İndigo
+                                    'rgba(138, 43, 226, 0.8)', // Mavi Menekşe
+                                    'rgba(0, 0, 255, 0.8)', // Mavi
+                                    'rgba(0, 191, 255, 0.8)', // Derin Gökyüzü Mavisi
+                                    'rgba(0, 255, 255, 0.8)', // Camgöbeği
+                                    'rgba(0, 255, 127, 0.8)', // Yay Yeşili
+                                    'rgba(34, 139, 34, 0.8)' // Orman Yeşili
+                                ],
+                                borderColor: [
+                                    'rgba(0, 100, 0, 1)', // Koyu Yeşil
+                                    'rgba(255, 140, 0, 1)', // Turuncu
+                                    'rgba(255, 69, 0, 1)', // Kırmızı
+                                    'rgba(255, 0, 0, 1)', // Koyu Kırmızı
+                                    'rgba(128, 0, 0, 1)', // Çok Koyu Kırmızı
+                                    'rgba(75, 0, 130, 1)', // İndigo
+                                    'rgba(138, 43, 226, 1)', // Mavi Menekşe
+                                    'rgba(0, 0, 255, 1)', // Mavi
+                                    'rgba(0, 191, 255, 1)', // Derin Gökyüzü Mavisi
+                                    'rgba(0, 255, 255, 1)', // Camgöbeği
+                                    'rgba(0, 255, 127, 1)', // Yay Yeşili
+                                    'rgba(34, 139, 34, 1)' // Orman Yeşili
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                datalabels: {
+                                    formatter: (value, context) => {
+                                        const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
+                                        const percentage = ((value / total) * 100).toFixed(2);
+                                        const sortedData = context.chart.data.datasets[0].data.slice().sort((a, b) => b - a);
+                                        const top5Values = sortedData.slice(0, 5);
+                                        if (top5Values.includes(value)) {
+                                            return `${context.chart.data.labels[context.dataIndex]}: ${percentage}%`;
+                                        }
+                                        return '';
+                                    },
+                                    color: '#fff',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const dataset = context.dataset;
+                                            const dataIndex = context.dataIndex;
+                                            const value = dataset.data[dataIndex];
+                                            const total = dataset.data.reduce((acc, val) => acc + val, 0);
+                                            const percentage = total > 0 ? ((value / total) * 100).toFixed(2) : 0;
+                                            return `${context.label}: ${value} (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        plugins: [ChartDataLabels]
+                    });
+                }
+
+                // En çok satış yapılan 3 ili yazdır
+                const top3Cities = data.labels
+                    .map((label, index) => ({ label, value: data.values[index] }))
+                    .sort((a, b) => b.value - a.value)
+                    .slice(0, 3)
+                    .map(item => `${item.label}: ${item.value}`)
+                    .join('<br>');
+                document.getElementById('top3Cities').innerHTML = `<strong>En Çok Satış Yapılan 3 İl:</strong><br>${top3Cities}`;
+            })
+            .catch(error => {
+                console.error('Pasta grafiği verisi alınamadı:', error);
+            });
+    };
+
+    const fetchNewPieChartData = () => {
+        fetch('/api/new-pie-chart-data')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('newPieChart').getContext('2d');
+                if (newPieChart) {
+                    newPieChart.data.datasets[0].data = data.values;
+                    newPieChart.update();
+                } else {
+                    newPieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Yeni Pasta Grafiği',
+                                data: data.values,
+                                backgroundColor: [
+                                    'rgba(0, 100, 0, 0.8)', // Koyu Yeşil
+                                    'rgba(255, 140, 0, 0.8)', // Turuncu
+                                    'rgba(255, 69, 0, 0.8)', // Kırmızı
+                                    'rgba(255, 0, 0, 0.8)', // Koyu Kırmızı
+                                    'rgba(128, 0, 0, 0.8)', // Çok Koyu Kırmızı
+                                    'rgba(75, 0, 130, 0.8)', // İndigo
+                                    'rgba(138, 43, 226, 0.8)', // Mavi Menekşe
+                                    'rgba(0, 0, 255, 0.8)', // Mavi
+                                    'rgba(0, 191, 255, 0.8)', // Derin Gökyüzü Mavisi
+                                    'rgba(0, 255, 255, 0.8)', // Camgöbeği
+                                    'rgba(0, 255, 127, 0.8)', // Yay Yeşili
+                                    'rgba(34, 139, 34, 0.8)' // Orman Yeşili
+                                ],
+                                borderColor: [
+                                    'rgba(0, 100, 0, 1)', // Koyu Yeşil
+                                    'rgba(255, 140, 0, 1)', // Turuncu
+                                    'rgba(255, 69, 0, 1)', // Kırmızı
+                                    'rgba(255, 0, 0, 1)', // Koyu Kırmızı
+                                    'rgba(128, 0, 0, 1)', // Çok Koyu Kırmızı
+                                    'rgba(75, 0, 130, 1)', // İndigo
+                                    'rgba(138, 43, 226, 1)', // Mavi Menekşe
+                                    'rgba(0, 0, 255, 1)', // Mavi
+                                    'rgba(0, 191, 255, 1)', // Derin Gökyüzü Mavisi
+                                    'rgba(0, 255, 255, 1)', // Camgöbeği
+                                    'rgba(0, 255, 127, 1)', // Yay Yeşili
+                                    'rgba(34, 139, 34, 1)' // Orman Yeşili
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                datalabels: {
+                                    formatter: (value, context) => {
+                                        const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
+                                        const percentage = ((value / total) * 100).toFixed(2);
+                                        const sortedData = context.chart.data.datasets[0].data.slice().sort((a, b) => b - a);
+                                        const top5Values = sortedData.slice(0, 5);
+                                        if (top5Values.includes(value)) {
+                                            return `${context.chart.data.labels[context.dataIndex]}: ${percentage}%`;
+                                        }
+                                        return '';
+                                    },
+                                    color: '#fff',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const dataset = context.dataset;
+                                            const dataIndex = context.dataIndex;
+                                            const value = dataset.data[dataIndex];
+                                            const total = dataset.data.reduce((acc, val) => acc + val, 0);
+                                            const percentage = total > 0 ? ((value / total) * 100).toFixed(2) : 0;
+                                            return `${context.label}: ${value} (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        plugins: [ChartDataLabels]
+                    });
+                }
+
+                // En çok satış yapılan 3 ili yazdır
+                const top3CitiesNew = data.labels
+                    .map((label, index) => ({ label, value: data.values[index] }))
+                    .sort((a, b) => b.value - a.value)
+                    .slice(0, 3)
+                    .map(item => `${item.label}: ${item.value}`)
+                    .join('<br>');
+                document.getElementById('top3CitiesNew').innerHTML = `<strong>En Çok Satış Yapılan 3 İl:</strong><br>${top3CitiesNew}`;
+            })
+            .catch(error => {
+                console.error('Yeni pasta grafiği verisi alınamadı:', error);
+            });
+    };
+
+    if (window.location.pathname === '/satislar.html') {
+        fetchPieChartData();
+        fetchNewPieChartData();
+    }
+
+
     // Yıllara göre satış ve gelir verilerini al
     const fetchStats = (year, chartType) => {
         const endpoint = chartType === 'sales' ? '/api/sales' : '/api/income';
@@ -196,135 +399,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
     
-    // Pasta grafiği verilerini al
-    const fetchPieChartData = () => {
-        fetch('/api/pie-chart-data')
-            .then(response => response.json())
-            .then(data => {
-                const ctx = document.getElementById('pieChart').getContext('2d');
-                pieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: data.labels,
-                        datasets: [{
-                            data: data.values, // Buradaki veriyi kontrol edin
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const dataset = context.dataset;
-                                        const dataIndex = context.dataIndex;
-                                        const value = dataset.data[dataIndex];
-                                        const total = dataset.data.reduce((acc, val) => acc + val, 0);
-                                        const percentage = total > 0 ? ((value / total) * 100).toFixed(2) : 0;
-                
-                                        return `${context.label}: ${value} (${percentage}%)`;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-                
-            })
-            .catch(error => {
-                console.error('Pasta grafiği verisi alınamadı:', error);
-            });
-    };
-        // Yeni pasta grafiği verilerini al
-    const fetchNewPieChartData = () => {
-        fetch('/api/new-pie-chart-data')
-            .then(response => response.json())
-            .then(data => {
-                const ctx = document.getElementById('newPieChart').getContext('2d');
-                if (newPieChart) {
-                    newPieChart.data.datasets[0].data = data.values;
-                    newPieChart.update();
-                } else {
-                    newPieChart = new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            labels: data.labels,
-                            datasets: [{
-                                label: 'Yeni Pasta Grafiği',
-                                data: data.values,
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
-                                ],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'top',
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Yeni Pasta Grafiği'
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            console.log(context); // context nesnesinin yapısını kontrol etmek için konsola yazdır
-                                            const label = context.label || context.chart.data.labels[context.dataIndex] || '';
-                                            const value = context.raw || context.parsed || 0;
-                                            const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
-                                            const percentage = ((value / total) * 100).toFixed(2);
-                                            return `${label}: ${value} (${percentage}%)`;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Yeni pasta grafiği verisi alınamadı:', error);
-            });
-    };
-    fetch('/api/pie-chart-data')
-    .then(response => response.json())
-    .then(data => {
-        console.log('Pie Chart Data:', data);
-    });
-
 
     if (window.location.pathname === '/index.html') {
         const yearSelectSales = document.getElementById('year-select-sales');

@@ -130,9 +130,10 @@ exports.getSizeSales = async (req, res) => {
 
 exports.getPieChartData = async (req, res) => {
     try {
-        const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN sube ON sube.il_id=iller.il_id LEFT JOIN siparisler ON siparisler.il_id=iller.il_id GROUP BY iller.il_id');
+        const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN sube ON sube.il_id=iller.il_id LEFT JOIN siparisler ON siparisler.il_id=iller.il_id GROUP BY iller.il_id ORDER BY toplam DESC');
+        console.log("Sorgu Sonuçları:", results);
         const labels = results.map(row => row.sehir);
-        const values = results.map(row => row.toplam);
+        const values = results.map(row => parseInt(row.toplam, 10)); // Verileri int'e çevir
         res.json({ labels, values });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);
@@ -143,9 +144,10 @@ exports.getPieChartData = async (req, res) => {
 exports.getNewPieChartData = async (req, res) => {
     try {
         // Veritabanı sorgusunu buraya yazın
-        const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN sube ON sube.il_id=iller.il_id LEFT JOIN siparisler ON siparisler.il_id=iller.il_id WHERE sube.sube_id IS NULL GROUP BY iller.il_id');
+        const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN sube ON sube.il_id=iller.il_id LEFT JOIN siparisler ON siparisler.il_id=iller.il_id WHERE sube.sube_id IS NULL GROUP BY iller.il_id ORDER BY toplam DESC');
+        console.log("Sorgu Sonuçları:", results);
         const labels = results.map(row => row.sehir);
-        const values = results.map(row => row.toplam);
+        const values = results.map(row => parseInt(row.toplam, 10)); // Verileri int'e çevir
         res.json({ labels, values });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);

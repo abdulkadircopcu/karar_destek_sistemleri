@@ -74,13 +74,16 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    margin-left: -80px; /* Container'ı 60px sola kaydır */
 }
 
 .chart-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 48%; /* Her bir grafiğin genişliğini %48 yap */
+    width: 45%; /* Her bir grafiğin genişliğini %48 yap */
+    position: relative; /* En çok satış yapılan 3 ili sağa yerleştirmek için gerekli */
+    margin-right: 8%;
 }
 
 .chart-title {
@@ -91,4 +94,17 @@ body {
 .half-size {
     width: 100% !important; /* Grafiğin genişliğini %100 oranında yap */
     height: auto !important; /* Yüksekliği otomatik olarak ayarla */
+}
+
+.quarter-size {
+    width: 75% !important; /* Grafiğin genişliğini %75 oranında yap */
+    height: auto !important; /* Yüksekliği otomatik olarak ayarla */
+}
+
+.top3 {
+    position: absolute;
+    right: -150px; /* Sağ tarafa yerleştirmek için gerekli */
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: left;
 }
