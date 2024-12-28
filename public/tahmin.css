@@ -9,7 +9,7 @@ body {
 
 .sidebar {
     width: 20%; /* Menü sayfanın %20'sini kaplayacak */
-    background-color: #84ae8a;
+    background-color: #84ae8a; /* Menü rengi */
     padding: 15px;
     height: 100vh; /* Menü tam ekran yüksekliğinde olacak */
     position: fixed; /* Menü sabitlenecek */
@@ -60,17 +60,63 @@ body {
     margin-top: 50px; /* Üst bilgi alanının altında başla */
 }
 
-#update-prediction {
-    background-color: #007bff; /* Mavi renk */
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.chart-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chart-title {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px; /* Elemanlar arasındaki boşluk */
+}
+
+.input-item {
+    flex: 1; /* Elemanların eşit genişlikte olmasını sağlar */
+}
+
+#update-prediction, #update-monthly-prediction {
+    background-color: #84ae8a; /* Menü rengi */
     color: white;
     border: none;
     padding: 9px 18px; /* %10 oranında küçültülmüş padding */
     border-radius: 12px; /* Yuvarlak köşeler */
     cursor: pointer;
     font-size: 14.4px; /* %10 oranında küçültülmüş font-size */
-    margin-top: 10px;
+    margin-top: 0; /* Margin-top kaldırıldı */
+    width: 100%; /* Tam genişlik */
+    margin-left: 35px; /* Butonu 35px sağa kaydır */
 }
 
-#update-prediction:hover {
-    background-color: #0056b3; /* Hover durumunda daha koyu mavi */
+#update-prediction:hover, #update-monthly-prediction:hover {
+    background-color: #6f9674; /* Hover durumunda daha koyu yeşil */
+}
+
+#prediction-input, #monthly-prediction-input, #city-select {
+    width: 100%; /* Tam genişlik */
+    padding: 9px 18px; /* Butonla aynı padding */
+    border-radius: 12px; /* Butonla aynı yuvarlak köşeler */
+    font-size: 14.4px; /* Butonla aynı font-size */
+    border: 1px solid #ccc; /* Kenarlık ekleyin */
+}
+
+#prediction-input:focus, #monthly-prediction-input:focus, #city-select:focus {
+    outline: none; /* Focus durumunda outline kaldır */
+    border-color: #84ae8a; /* Focus durumunda kenarlık rengi */
 }

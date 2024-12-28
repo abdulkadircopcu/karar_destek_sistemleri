@@ -17,15 +17,43 @@
             <li><a href="./index.html">Ana Sayfa</a></li>
             <li><a href="./satislar.html">Satışlar</a></li>
             <li><a href="./tahmin.html">Tahminleme</a></li>
+            <li><a href="./login.html">Çıkış Yap</a></li>
         </ul>
     </div>
     <div class="content">
         <div class="chart-container">
             <div class="chart-item">
-                <h3 class="chart-title">2024 Verilerine Göre 2025 Tahmini</h3>
-                <input type="number" id="prediction-input" placeholder="Tahmin yüzdesi girin (ör. 10)" />
-                <button id="update-prediction">Tahminle</button>
+                <h3 class="chart-title">2024 Verilerine Göre 2025 Satış Tahmini</h3>
+                <div class="input-group">
+                    <div class="input-item"><input type="number" id="prediction-input" placeholder="Tahmin yüzdesi girin" /></div>
+                    <div class="input-item"><button id="update-prediction">Tahminle</button></div>
+                </div>
                 <canvas id="predictionChart" class="chart-canvas" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-item">
+                <h3 class="chart-title">İllere Göre Aylık Satış Tahmini</h3>
+                <div class="input-group">
+                    <div class="input-item"><select id="city-select">
+                        <option value="İstanbul">İstanbul</option>
+                        <option value="Ankara">Ankara</option>
+                        <option value="İzmir">İzmir</option>
+                        <option value="Antalya">Antalya</option>
+                        <option value="Bursa">Bursa</option>
+                        <option value="Adana">Adana</option>
+                        <option value="Kocaeli">Kocaeli</option>
+                        <option value="Mersin">Mersin</option>
+                        <option value="Manisa">Manisa</option>
+                        <option value="Samsun">Samsun</option>
+                        <option value="Balıkesir">Balıkesir</option>
+                        <option value="Trabzon">Trabzon</option>
+                        <!-- Diğer illeri buraya ekleyin -->
+                    </select></div>
+                    <div class="input-item"><input type="number" id="monthly-prediction-input" placeholder="Tahmin yüzdesi girin" /></div>
+                    <div class="input-item"><button id="update-monthly-prediction">Tahminle</button></div>
+                </div>
+                <canvas id="monthlyPredictionChart" class="chart-canvas" width="400" height="200"></canvas>
             </div>
         </div>
     </div>

@@ -15,5 +15,6 @@ router.get('/api/new-pie-chart-data', controller.getNewPieChartData);
 router.get('/api/city-sales-data', controller.getCitySalesData); // Yeni API endpoint'i ekleyin
 router.get('/api/city-sales-data-without-branch', controller.getCitySalesDataWithoutBranch); // Yeni API endpoint'i ekleyin
 router.get('/api/city-sales-prediction', controller.getCitySalesPrediction); // Yeni API endpoint'i ekleyin
+router.get('/api/city-monthly-sales-prediction', controller.getCityMonthlySalesPrediction); // Yeni API endpoint'i ekleyin
 
 module.exports = router;

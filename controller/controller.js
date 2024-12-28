@@ -199,3 +199,21 @@ exports.getCitySalesPrediction = async (req, res) => {
         res.status(500).send('Veritabanı hatası');
     }
 };
+
+exports.getCityMonthlySalesPrediction = async (req, res) => {
+    const city = req.query.city; // İl parametresini al
+    try {
+        const [results] = await dbConn.query('SELECT MONTH(siparisler.tarih) AS ay, SUM(siparisler.adet) AS toplam FROM siparisler LEFT JOIN iller ON siparisler.il_id=iller.il_id WHERE iller.sehir = ? AND YEAR(siparisler.tarih) = 2024 GROUP BY ay ORDER BY ay', [city]);
+        console.log("Sorgu Sonuçları:", results);
+        const labels = results.map(row => `Ay ${row.ay}`);
+        const values2024 = results.map(row => parseInt(row.toplam, 10)); // 2024 verilerini int'e çevir
+
+        // Basit bir tahmin algoritması: Her ayın satışlarını %0 artırarak tahmin yapalım (varsayılan)
+        const predictedValues = values2024.map(value => Math.round(value * 1.0));
+
+        res.json({ labels, values2024, predictedValues });
+    } catch (err) {
+        console.error("Veritabanı sorgu hatası:", err);
+        res.status(500).send('Veritabanı hatası');
+    }
+};

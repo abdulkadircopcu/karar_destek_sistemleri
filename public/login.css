@@ -1,12 +1,22 @@
 body {
-    background-color: violet;
+    background-color: #f0f0f0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+}
+
+.logo-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+.logo {
+    width: 180px; /* Logonun genişliği */
+    height: auto;
 }
 
 .login-container {
@@ -16,6 +26,11 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 300px;
+    height: 40%; /* Uzunluğu %40 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* İçindeki divleri dikeyde ortala */
+    align-items: center; /* İçindeki divleri yatayda ortala */
 }
 
 h2 {
@@ -36,7 +51,7 @@ input[type="password"] {
 button {
     width: 100%;
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: #84ae8a; /* Buton rengi */
     color: white;
     border: none;
     border-radius: 4px;
@@ -44,7 +59,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #6f9674; /* Hover durumunda daha koyu yeşil */
 }
 
 #message {

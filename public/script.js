@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let citySalesChart;
     let citySalesChartWithoutBranch;
     let predictionChart;
+    let monthlyPredictionChart;
 
     // İllere göre satış verilerini al
     const fetchCitySalesData = (year) => {
@@ -570,12 +571,61 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
+    // İl seçimi ve aylık satış tahmini al
+    const fetchCityMonthlySalesPrediction = (city, percentage) => {
+        fetch(`/api/city-monthly-sales-prediction?city=${city}`)
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('monthlyPredictionChart').getContext('2d');
+                const predictedValues = data.values2024.map(value => Math.round(value * (1 + percentage / 100)));
+                const monthLabels = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+                if (monthlyPredictionChart) {
+                    monthlyPredictionChart.data.datasets[0].data = data.values2024;
+                    monthlyPredictionChart.data.datasets[1].data = predictedValues;
+                    monthlyPredictionChart.update();
+                } else {
+                    monthlyPredictionChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: monthLabels,
+                            datasets: [
+                                {
+                                    label: '2024 Aylık Satış Verileri',
+                                    data: data.values2024,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: '2025 Aylık Tahmini',
+                                    data: predictedValues,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Aylık tahmin verisi alınamadı:', error);
+            });
+    };
+
     if (window.location.pathname === '/tahmin.html') {
         const predictionInput = document.getElementById('prediction-input');
         const updatePredictionButton = document.getElementById('update-prediction');
 
         updatePredictionButton.addEventListener('click', () => {
-            const percentage = parseInt(predictionInput.value, 0);
+            const percentage = parseInt(predictionInput.value, 10);
             if (!isNaN(percentage)) {
                 fetchCitySalesPrediction(percentage);
             } else {
@@ -584,6 +634,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         fetchCitySalesPrediction(0); // Varsayılan yüzde değeri ile tahmin verilerini al
+
+        const citySelect = document.getElementById('city-select');
+        const monthlyPredictionInput = document.getElementById('monthly-prediction-input');
+        const updateMonthlyPredictionButton = document.getElementById('update-monthly-prediction');
+
+        citySelect.addEventListener('change', () => {
+            const city = citySelect.value;
+            const percentage = parseInt(monthlyPredictionInput.value, 10) || 0;
+            fetchCityMonthlySalesPrediction(city, percentage);
+        });
+
+        updateMonthlyPredictionButton.addEventListener('click', () => {
+            const city = citySelect.value;
+            const percentage = parseInt(monthlyPredictionInput.value, 10);
+            if (!isNaN(percentage)) {
+                fetchCityMonthlySalesPrediction(city, percentage);
+            } else {
+                alert('Lütfen geçerli bir yüzde değeri girin.');
+            }
+        });
+
+        fetchCityMonthlySalesPrediction(citySelect.value, 0); // Varsayılan yüzde değeri ile aylık tahmin verilerini al
     }
 
     // Giriş formunu işleme
