@@ -6,6 +6,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .menu {
     width: 20%; /* Menü sayfanın %20'sini kaplayacak */
     background-color: #84ae8a;
@@ -18,6 +19,7 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
 .user-info {
     text-align: center;
     margin-bottom: 20px;
@@ -25,26 +27,39 @@ body {
     flex-direction: column; /* Elemanları dikey hizala */
     align-items: center; /* Elemanları ortala */
 }
+
 .user-info .logo {
     width: 180px; /* Logonun genişliği */
     height: auto;
     margin-bottom: 10px; /* Kullanıcı adı ve soyadı ile logo arasındaki boşluk */
 }
+
 .menu ul {
     list-style-type: none;
     padding: 0;
     width: 100%;
     margin-top: 40px; /* Menü elemanlarını biraz aşağıya al */
 }
+
 .menu ul li {
-    margin-bottom: 50px; /* Menü elemanları arasındaki boşluğu artır */
+    margin-bottom: 30px; /* Menü elemanları arasındaki boşluğu artır */
 }
+
 .menu ul li a {
     text-decoration: none;
     color: #333;
     display: block;
     text-align: center;
+    padding: 4px; /* Çevresini belirlemek için padding ekle */
+    border: 2px solid #6f9674; /* Çevresini belirlemek için border ekle */
+    border-radius: 8px; /* Köşeleri yuvarlat */
+    transition: background-color 0.3s, border-color 0.3s; /* Geçiş efekti ekle */
 }
+
+.menu ul li a:hover {
+    background-color: #6f9674; /* Hover durumunda daha koyu yeşil */
+}
+
 .content {
     margin-left: 25%; /* Menü genişliği kadar boşluk bırak */
     padding: 15px;
@@ -52,11 +67,13 @@ body {
     box-sizing: border-box; /* İçerik kısmının doğru şekilde yerleşmesi için */
     margin-top: 50px; /* Üst bilgi alanının altında başla */
 }
+
 .stats {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
+
 .stats div {
     width: 30%;
     background-color: #e0e0e0;
@@ -69,38 +86,65 @@ body {
     align-items: center;
     flex-direction: column; /* Elemanları dikey hizala */
 }
+
 .stats div:nth-child(1) {
     background-color: darkkhaki; /* Toplam Sipariş Adedi divinin tamamının arka plan rengini yeşil yaptık */
 }
+
 .stats #stat1 {
     background-color:darkkhaki; /* Toplam Sipariş Adedi sayısının arka plan rengini yeşil yaptık */
 }
+
 .stats div:nth-child(2) {
     background-color: #84ae8a; /* Toplam Forma Adedi divinin tamamının arka plan rengini sarı yaptık */
 }
+
 .stats #stat2 {
     background-color: #84ae8a; /* Toplam Forma Adedi sayısının arka plan rengini sarı yaptık */
 }
+
 .stats div:nth-child(3) {
     background-color: orangered; /* 2024 Yılı Geliri divinin tamamının arka plan rengini kırmızı yaptık */
 }
+
 .stats #stat3 {
     background-color: orangered; /* 2024 Yılı Geliri sayısının arka plan rengini kırmızı yaptık */
 }
+
 .chart-canvas {
     width: 100% !important; /* Grafiğin genişliğini %100 oranında yap */
     height: auto !important; /* Yüksekliği otomatik olarak ayarla */
 }
+
 .chart-container {
     display: flex;
     justify-content: space-between;
 }
+
 .chart-item {
     width: 48%; /* Her bir grafiğin genişliğini %48 yap */
     position: relative; /* Başlıkları ortalamak için gerekli */
     margin-top: 40px; /* Başlık ile grafik arasındaki boşluk */
 }
+
 .chart-title {
     text-align: center;
     margin-bottom: 10px; /* Başlık ile grafik arasındaki boşluk */
+}
+
+select {
+    width: 25%; /* Tam genişlik */
+    padding: 9px 18px; /* Butonla aynı padding */
+    border-radius: 12px; /* Butonla aynı yuvarlak köşeler */
+    font-size: 14.4px; /* Butonla aynı font-size */
+    border: 1px solid #ccc; /* Kenarlık ekleyin */
+    margin-bottom: 10px; /* Altına boşluk ekleyin */
+    display: block; /* Blok eleman yap */
+    margin-left: auto; /* Ortalamak için */
+    margin-right: auto; /* Ortalamak için */
+}
+
+select:focus {
+    outline: none; /* Focus durumunda outline kaldır */
+    border-color: #84ae8a; /* Focus durumunda kenarlık rengi */
 }

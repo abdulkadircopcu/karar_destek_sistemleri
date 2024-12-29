@@ -6,9 +6,10 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .sidebar {
     width: 20%; /* Menü sayfanın %20'sini kaplayacak */
-    background-color: #84ae8a;
+    background-color: #84ae8a; /* Menü rengi */
     padding: 15px;
     height: 100vh; /* Menü tam ekran yüksekliğinde olacak */
     position: fixed; /* Menü sabitlenecek */
@@ -18,6 +19,7 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
 .user-info {
     text-align: center;
     margin-bottom: 20px;
@@ -25,26 +27,39 @@ body {
     flex-direction: column; /* Elemanları dikey hizala */
     align-items: center; /* Elemanları ortala */
 }
+
 .user-info .logo {
     width: 180px; /* Logonun genişliği */
     height: auto;
     margin-bottom: 10px; /* Kullanıcı adı ve soyadı ile logo arasındaki boşluk */
 }
+
 .sidebar ul {
     list-style-type: none;
     padding: 0;
     width: 100%;
     margin-top: 40px; /* Menü elemanlarını biraz aşağıya al */
 }
+
 .sidebar ul li {
-    margin-bottom: 50px; /* Menü elemanları arasındaki boşluğu artır */
+    margin-bottom: 30px; /* Menü elemanları arasındaki boşluğu artır */
 }
+
 .sidebar ul li a {
     text-decoration: none;
     color: #333;
     display: block;
     text-align: center;
+    padding: 4px; /* Çevresini belirlemek için padding ekle */
+    border: 2px solid #6f9674; /* Çevresini belirlemek için border ekle */
+    border-radius: 8px; /* Köşeleri yuvarlat */
+    transition: background-color 0.3s, border-color 0.3s; /* Geçiş efekti ekle */
 }
+
+.sidebar ul li a:hover {
+    background-color: #6f9674; /* Hover durumunda daha koyu yeşil */
+}
+
 .content {
     margin-left: 25%; /* Menü genişliği kadar boşluk bırak */
     padding: 15px;
@@ -52,11 +67,13 @@ body {
     box-sizing: border-box; /* İçerik kısmının doğru şekilde yerleşmesi için */
     margin-top: 50px; /* Üst bilgi alanının altında başla */
 }
+
 .stats {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
+
 .stats div {
     width: 30%;
     background-color: #e0e0e0;
@@ -115,4 +132,18 @@ body {
 
 #year-select-city-sales {
     margin-bottom: 10px; /* Select elementinin altına boşluk ekle */
+}
+
+select {
+    width: 25%; /* Tam genişlik */
+    padding: 9px 18px; /* Butonla aynı padding */
+    border-radius: 12px; /* Butonla aynı yuvarlak köşeler */
+    font-size: 14.4px; /* Butonla aynı font-size */
+    border: 1px solid #ccc; /* Kenarlık ekleyin */
+    margin-bottom: 10px; /* Altına boşluk ekleyin */
+}
+
+select:focus {
+    outline: none; /* Focus durumunda outline kaldır */
+    border-color: #84ae8a; /* Focus durumunda kenarlık rengi */
 }

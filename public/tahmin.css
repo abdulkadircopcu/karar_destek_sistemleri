@@ -42,7 +42,7 @@ body {
 }
 
 .sidebar ul li {
-    margin-bottom: 50px; /* Menü elemanları arasındaki boşluğu artır */
+    margin-bottom: 30px; /* Menü elemanları arasındaki boşluğu artır */
 }
 
 .sidebar ul li a {
@@ -50,6 +50,14 @@ body {
     color: #333;
     display: block;
     text-align: center;
+    padding: 4px; /* Çevresini belirlemek için padding ekle */
+    border: 2px solid #6f9674; /* Çevresini belirlemek için border ekle */
+    border-radius: 8px; /* Köşeleri yuvarlat */
+    transition: background-color 0.3s, border-color 0.3s; /* Geçiş efekti ekle */
+}
+
+.sidebar ul li a:hover {
+    background-color: #6f9674; /* Hover durumunda daha koyu yeşil */
 }
 
 .content {
