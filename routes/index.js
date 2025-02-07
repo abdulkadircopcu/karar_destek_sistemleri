@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const routes = require('./router'); // router.js dosyasını dahil edin
+const routes = require('./router'); // router.js dosyasını dahil edildi
 
 router.use(routes);
 

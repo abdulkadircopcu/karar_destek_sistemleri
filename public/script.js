@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     } else {
-        // Kullanıcı giriş yapmamışsa login.html sayfasına yönlendir
         if (window.location.pathname !== '/login.html') {
             window.location.href = 'login.html';
         }
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let predictionChart;
     let monthlyPredictionChart;
 
-    // İllere göre satış verilerini al
+    // İllere göre satış verileri
     const fetchCitySalesData = (year) => {
         fetch(`/api/city-sales-data?year=${year}`)
             .then(response => response.json())
@@ -65,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // Şubesi olmayan illere göre satış verilerini al
+    // Şubesi olmayan illere göre satış verileri
     const fetchCitySalesDataWithoutBranch = (year) => {
         fetch(`/api/city-sales-data-without-branch?year=${year}`)
             .then(response => response.json())
@@ -103,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     
-    // Pasta grafiği verilerini al
+    // Pasta grafiği verileri
     const fetchPieChartData = () => {
         fetch('/api/pie-chart-data')
             .then(response => response.json())
@@ -121,32 +120,32 @@ document.addEventListener('DOMContentLoaded', () => {
                                 label: 'Pasta Grafiği',
                                 data: data.values,
                                 backgroundColor: [
-                                    'rgba(0, 100, 0, 0.8)', // Koyu Yeşil
-                                    'rgba(255, 140, 0, 0.8)', // Turuncu
-                                    'rgba(255, 69, 0, 0.8)', // Kırmızı
-                                    'rgba(255, 0, 0, 0.8)', // Koyu Kırmızı
-                                    'rgba(128, 0, 0, 0.8)', // Çok Koyu Kırmızı
-                                    'rgba(75, 0, 130, 0.8)', // İndigo
-                                    'rgba(138, 43, 226, 0.8)', // Mavi Menekşe
-                                    'rgba(0, 0, 255, 0.8)', // Mavi
-                                    'rgba(0, 191, 255, 0.8)', // Derin Gökyüzü Mavisi
-                                    'rgba(0, 255, 255, 0.8)', // Camgöbeği
-                                    'rgba(0, 255, 127, 0.8)', // Yay Yeşili
-                                    'rgba(34, 139, 34, 0.8)' // Orman Yeşili
+                                    'rgba(0, 100, 0, 0.8)', 
+                                    'rgba(255, 140, 0, 0.8)', 
+                                    'rgba(255, 69, 0, 0.8)', 
+                                    'rgba(255, 0, 0, 0.8)', 
+                                    'rgba(128, 0, 0, 0.8)', 
+                                    'rgba(75, 0, 130, 0.8)', 
+                                    'rgba(138, 43, 226, 0.8)', 
+                                    'rgba(0, 0, 255, 0.8)', 
+                                    'rgba(0, 191, 255, 0.8)', 
+                                    'rgba(0, 255, 255, 0.8)', 
+                                    'rgba(0, 255, 127, 0.8)',
+                                    'rgba(34, 139, 34, 0.8)' 
                                 ],
                                 borderColor: [
-                                    'rgba(0, 100, 0, 1)', // Koyu Yeşil
-                                    'rgba(255, 140, 0, 1)', // Turuncu
-                                    'rgba(255, 69, 0, 1)', // Kırmızı
-                                    'rgba(255, 0, 0, 1)', // Koyu Kırmızı
-                                    'rgba(128, 0, 0, 1)', // Çok Koyu Kırmızı
-                                    'rgba(75, 0, 130, 1)', // İndigo
-                                    'rgba(138, 43, 226, 1)', // Mavi Menekşe
-                                    'rgba(0, 0, 255, 1)', // Mavi
-                                    'rgba(0, 191, 255, 1)', // Derin Gökyüzü Mavisi
-                                    'rgba(0, 255, 255, 1)', // Camgöbeği
-                                    'rgba(0, 255, 127, 1)', // Yay Yeşili
-                                    'rgba(34, 139, 34, 1)' // Orman Yeşili
+                                    'rgba(0, 100, 0, 1)',
+                                    'rgba(255, 140, 0, 1)', 
+                                    'rgba(255, 69, 0, 1)', 
+                                    'rgba(255, 0, 0, 1)', 
+                                    'rgba(128, 0, 0, 1)', 
+                                    'rgba(75, 0, 130, 1)', 
+                                    'rgba(138, 43, 226, 1)',
+                                    'rgba(0, 0, 255, 1)', 
+                                    'rgba(0, 191, 255, 1)', 
+                                    'rgba(0, 255, 255, 1)', 
+                                    'rgba(0, 255, 127, 1)', 
+                                    'rgba(34, 139, 34, 1)' 
                                 ],
                                 borderWidth: 1
                             }]
@@ -188,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
 
-                // En çok satış yapılan 3 ili yazdır
+                // En çok satış yapılan 3 il
                 const top3Cities = data.labels
                     .map((label, index) => ({ label, value: data.values[index] }))
                     .sort((a, b) => b.value - a.value)
@@ -219,32 +218,32 @@ document.addEventListener('DOMContentLoaded', () => {
                                 label: 'Yeni Pasta Grafiği',
                                 data: data.values,
                                 backgroundColor: [
-                                    'rgba(0, 100, 0, 0.8)', // Koyu Yeşil
-                                    'rgba(255, 140, 0, 0.8)', // Turuncu
-                                    'rgba(255, 69, 0, 0.8)', // Kırmızı
-                                    'rgba(255, 0, 0, 0.8)', // Koyu Kırmızı
-                                    'rgba(128, 0, 0, 0.8)', // Çok Koyu Kırmızı
-                                    'rgba(75, 0, 130, 0.8)', // İndigo
-                                    'rgba(138, 43, 226, 0.8)', // Mavi Menekşe
-                                    'rgba(0, 0, 255, 0.8)', // Mavi
-                                    'rgba(0, 191, 255, 0.8)', // Derin Gökyüzü Mavisi
-                                    'rgba(0, 255, 255, 0.8)', // Camgöbeği
-                                    'rgba(0, 255, 127, 0.8)', // Yay Yeşili
-                                    'rgba(34, 139, 34, 0.8)' // Orman Yeşili
+                                    'rgba(0, 100, 0, 0.8)', 
+                                    'rgba(255, 140, 0, 0.8)', 
+                                    'rgba(255, 69, 0, 0.8)',
+                                    'rgba(255, 0, 0, 0.8)', 
+                                    'rgba(128, 0, 0, 0.8)',
+                                    'rgba(75, 0, 130, 0.8)', 
+                                    'rgba(138, 43, 226, 0.8)', 
+                                    'rgba(0, 0, 255, 0.8)', 
+                                    'rgba(0, 191, 255, 0.8)',
+                                    'rgba(0, 255, 255, 0.8)',
+                                    'rgba(0, 255, 127, 0.8)', 
+                                    'rgba(34, 139, 34, 0.8)' 
                                 ],
                                 borderColor: [
-                                    'rgba(0, 100, 0, 1)', // Koyu Yeşil
-                                    'rgba(255, 140, 0, 1)', // Turuncu
-                                    'rgba(255, 69, 0, 1)', // Kırmızı
-                                    'rgba(255, 0, 0, 1)', // Koyu Kırmızı
-                                    'rgba(128, 0, 0, 1)', // Çok Koyu Kırmızı
-                                    'rgba(75, 0, 130, 1)', // İndigo
-                                    'rgba(138, 43, 226, 1)', // Mavi Menekşe
-                                    'rgba(0, 0, 255, 1)', // Mavi
-                                    'rgba(0, 191, 255, 1)', // Derin Gökyüzü Mavisi
-                                    'rgba(0, 255, 255, 1)', // Camgöbeği
-                                    'rgba(0, 255, 127, 1)', // Yay Yeşili
-                                    'rgba(34, 139, 34, 1)' // Orman Yeşili
+                                    'rgba(0, 100, 0, 1)', 
+                                    'rgba(255, 140, 0, 1)',
+                                    'rgba(255, 69, 0, 1)', 
+                                    'rgba(255, 0, 0, 1)', 
+                                    'rgba(128, 0, 0, 1)', 
+                                    'rgba(75, 0, 130, 1)',
+                                    'rgba(138, 43, 226, 1)', 
+                                    'rgba(0, 0, 255, 1)',
+                                    'rgba(0, 191, 255, 1)', 
+                                    'rgba(0, 255, 255, 1)', 
+                                    'rgba(0, 255, 127, 1)', 
+                                    'rgba(34, 139, 34, 1)' 
                                 ],
                                 borderWidth: 1
                             }]
@@ -286,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
 
-                // En çok satış yapılan 3 ili yazdır
+                // En çok satış yapılan 3 il
                 const top3CitiesNew = data.labels
                     .map((label, index) => ({ label, value: data.values[index] }))
                     .sort((a, b) => b.value - a.value)
@@ -307,18 +306,18 @@ document.addEventListener('DOMContentLoaded', () => {
         yearSelectCitySales.addEventListener('change', (event) => {
             fetchCitySalesData(event.target.value);
         });
-        fetchCitySalesData(yearSelectCitySales.value); // Varsayılan yıl için verileri al
+        fetchCitySalesData(yearSelectCitySales.value); 
 
         const yearSelectCitySalesWithoutBranch = document.getElementById('year-select-city-sales-without-branch');
         yearSelectCitySalesWithoutBranch.addEventListener('change', (event) => {
             fetchCitySalesDataWithoutBranch(event.target.value);
         });
-        fetchCitySalesDataWithoutBranch(yearSelectCitySalesWithoutBranch.value); // Varsayılan yıl için verileri al
+        fetchCitySalesDataWithoutBranch(yearSelectCitySalesWithoutBranch.value);
     }
 
 
 
-    // Yıllara göre satış ve gelir verilerini al
+    // Yıllara göre satış ve gelir verileri
     const fetchStats = (year, chartType) => {
         const endpoint = chartType === 'sales' ? '/api/sales' : '/api/income';
         fetch(`${endpoint}?year=${year}`)
@@ -332,7 +331,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(`${chartType} verileri alındı:`, data);
 
                 if (chartType === 'sales') {
-                    // Satış grafiği güncelle
                     const ctx = document.getElementById('salesChart').getContext('2d');
                     if (salesChart) {
                         salesChart.data.datasets[0].data = data.monthlySales;
@@ -361,7 +359,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     }
                 } else if (chartType === 'income') {
-                    // Gelir grafiği güncelle
                     const ctx = document.getElementById('incomeChart').getContext('2d');
                     if (incomeChart) {
                         incomeChart.data.datasets[0].data = data.monthlyIncome;
@@ -396,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // Takımlara göre satış verilerini al
+    // Takımlara göre satış verileri
     const fetchTeamSales = (year) => {
         fetch(`/api/team-sales?year=${year}`)
             .then(response => response.json())
@@ -433,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // Bedenlere göre satış verilerini al
+    // Bedenlere göre satış verileri
     const fetchSizeSales = () => {
         fetch('/api/size-sales')
             .then(response => response.json())
@@ -470,7 +467,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Bedenlere göre satış verisi alınamadı:', error);
             });
     };
-    // Statik verileri almak için fetch fonksiyonu
     const fetchStatsOverview = () => {
         fetch('/api/stats')
             .then(response => {
@@ -481,9 +477,9 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 console.log('Genel istatistikler:', data);
-                document.getElementById('stat1').textContent = data.totalOrders || 0; // Toplam sipariş adedi
-                document.getElementById('stat2').textContent = data.totalForms || 0;  // Toplam forma sayısı
-                document.getElementById('stat3').textContent = `${data.totalIncome || 0} TL`; // 2024 yılı geliri
+                document.getElementById('stat1').textContent = data.totalOrders || 0;
+                document.getElementById('stat2').textContent = data.totalForms || 0; 
+                document.getElementById('stat3').textContent = `${data.totalIncome || 0} TL`; 
             })
             .catch(error => {
                 console.error('Stats API isteği hatası:', error);
@@ -509,12 +505,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         
-        // Varsayılan yıl için istatistikleri al
         fetchStats(yearSelectSales.value, 'sales');
         fetchStats(yearSelectIncome.value, 'income');
         fetchTeamSales(yearSelectTeamSales.value);
         fetchStatsOverview();
-        // Takımlara göre ve bedenlere göre satış verilerini al
         fetchSizeSales();
     }
 
@@ -523,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchNewPieChartData();
     }
 
-    // 2024 verilerine göre 2025 tahminini al
+    // 2024 yılı satış verilerine göre 2025 yılı satış tahmini
     const fetchCitySalesPrediction = (percentage) => {
         fetch('/api/city-sales-prediction')
             .then(response => response.json())
@@ -571,7 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // İl seçimi ve aylık satış tahmini al
+    // İl seçimi ve aylık satış tahmini
     const fetchCityMonthlySalesPrediction = (city, percentage) => {
         fetch(`/api/city-monthly-sales-prediction?city=${city}`)
             .then(response => response.json())
@@ -633,7 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        fetchCitySalesPrediction(0); // Varsayılan yüzde değeri ile tahmin verilerini al
+        fetchCitySalesPrediction(0); 
 
         const citySelect = document.getElementById('city-select');
         const monthlyPredictionInput = document.getElementById('monthly-prediction-input');
@@ -655,10 +649,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        fetchCityMonthlySalesPrediction(citySelect.value, 0); // Varsayılan yüzde değeri ile aylık tahmin verilerini al
+        fetchCityMonthlySalesPrediction(citySelect.value, 0); 
     }
 
-    // Giriş formunu işleme
+    // Giriş formu
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', (event) => {
@@ -676,7 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Kullanıcı bilgilerini yerel depolamaya kaydet
+                    // Kullanıcı bilgilerini yerel depolamaya kaydet (Kullanıcının adı ve soyadı, menünün üstünde yazacak.)
                     fetch(`/api/user?username=${username}`)
                         .then(response => response.json())
                         .then(userData => {

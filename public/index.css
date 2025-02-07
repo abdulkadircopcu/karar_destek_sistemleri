@@ -8,11 +8,11 @@ body {
 }
 
 .menu {
-    width: 20%; /* Menü sayfanın %20'sini kaplayacak */
+    width: 20%;
     background-color: #84ae8a;
     padding: 15px;
-    height: 100vh; /* Menü tam ekran yüksekliğinde olacak */
-    position: fixed; /* Menü sabitlenecek */
+    height: 100vh; 
+    position: fixed; 
     top: 0;
     left: 0;
     display: flex;
@@ -24,25 +24,25 @@ body {
     text-align: center;
     margin-bottom: 20px;
     display: flex;
-    flex-direction: column; /* Elemanları dikey hizala */
-    align-items: center; /* Elemanları ortala */
+    flex-direction: column;
+    align-items: center; 
 }
 
 .user-info .logo {
-    width: 180px; /* Logonun genişliği */
+    width: 180px; 
     height: auto;
-    margin-bottom: 10px; /* Kullanıcı adı ve soyadı ile logo arasındaki boşluk */
+    margin-bottom: 10px; 
 }
 
 .menu ul {
     list-style-type: none;
     padding: 0;
     width: 100%;
-    margin-top: 40px; /* Menü elemanlarını biraz aşağıya al */
+    margin-top: 40px; 
 }
 
 .menu ul li {
-    margin-bottom: 30px; /* Menü elemanları arasındaki boşluğu artır */
+    margin-bottom: 30px; 
 }
 
 .menu ul li a {
@@ -50,22 +50,22 @@ body {
     color: #333;
     display: block;
     text-align: center;
-    padding: 4px; /* Çevresini belirlemek için padding ekle */
-    border: 2px solid #6f9674; /* Çevresini belirlemek için border ekle */
-    border-radius: 8px; /* Köşeleri yuvarlat */
-    transition: background-color 0.3s, border-color 0.3s; /* Geçiş efekti ekle */
+    padding: 4px; 
+    border: 2px solid #6f9674; 
+    border-radius: 8px; 
+    transition: background-color 0.3s, border-color 0.3s; 
 }
 
 .menu ul li a:hover {
-    background-color: #6f9674; /* Hover durumunda daha koyu yeşil */
+    background-color: #6f9674; 
 }
 
 .content {
-    margin-left: 25%; /* Menü genişliği kadar boşluk bırak */
+    margin-left: 25%; 
     padding: 15px;
-    width: 70%; /* İçerik kısmı sayfanın %80'ini kaplayacak */
-    box-sizing: border-box; /* İçerik kısmının doğru şekilde yerleşmesi için */
-    margin-top: 50px; /* Üst bilgi alanının altında başla */
+    width: 70%; 
+    box-sizing: border-box; 
+    margin-top: 50px; 
 }
 
 .stats {
@@ -79,41 +79,41 @@ body {
     background-color: #e0e0e0;
     padding: 10px;
     text-align: center;
-    font-size: 15px; /* Sayıların boyutunu 10px büyüttük */
-    font-weight: normal; /* Yazının kalınlığını küçülttük */
+    font-size: 15px;
+    font-weight: normal; 
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; /* Elemanları dikey hizala */
+    flex-direction: column; 
 }
 
 .stats div:nth-child(1) {
-    background-color: darkkhaki; /* Toplam Sipariş Adedi divinin tamamının arka plan rengini yeşil yaptık */
+    background-color: darkkhaki; 
 }
 
 .stats #stat1 {
-    background-color:darkkhaki; /* Toplam Sipariş Adedi sayısının arka plan rengini yeşil yaptık */
+    background-color:darkkhaki; 
 }
 
 .stats div:nth-child(2) {
-    background-color: #84ae8a; /* Toplam Forma Adedi divinin tamamının arka plan rengini sarı yaptık */
+    background-color: #84ae8a; 
 }
 
 .stats #stat2 {
-    background-color: #84ae8a; /* Toplam Forma Adedi sayısının arka plan rengini sarı yaptık */
+    background-color: #84ae8a; 
 }
 
 .stats div:nth-child(3) {
-    background-color: orangered; /* 2024 Yılı Geliri divinin tamamının arka plan rengini kırmızı yaptık */
+    background-color: orangered; 
 }
 
 .stats #stat3 {
-    background-color: orangered; /* 2024 Yılı Geliri sayısının arka plan rengini kırmızı yaptık */
+    background-color: orangered; 
 }
 
 .chart-canvas {
-    width: 100% !important; /* Grafiğin genişliğini %100 oranında yap */
-    height: auto !important; /* Yüksekliği otomatik olarak ayarla */
+    width: 100% !important; 
+    height: auto !important; 
 }
 
 .chart-container {
@@ -122,29 +122,29 @@ body {
 }
 
 .chart-item {
-    width: 48%; /* Her bir grafiğin genişliğini %48 yap */
-    position: relative; /* Başlıkları ortalamak için gerekli */
-    margin-top: 40px; /* Başlık ile grafik arasındaki boşluk */
+    width: 48%; 
+    position: relative; 
+    margin-top: 40px; 
 }
 
 .chart-title {
     text-align: center;
-    margin-bottom: 10px; /* Başlık ile grafik arasındaki boşluk */
+    margin-bottom: 10px; 
 }
 
 select {
-    width: 25%; /* Tam genişlik */
-    padding: 9px 18px; /* Butonla aynı padding */
-    border-radius: 12px; /* Butonla aynı yuvarlak köşeler */
-    font-size: 14.4px; /* Butonla aynı font-size */
-    border: 1px solid #ccc; /* Kenarlık ekleyin */
-    margin-bottom: 10px; /* Altına boşluk ekleyin */
-    display: block; /* Blok eleman yap */
-    margin-left: auto; /* Ortalamak için */
-    margin-right: auto; /* Ortalamak için */
+    width: 25%; 
+    padding: 9px 18px; 
+    border-radius: 12px;
+    font-size: 14.4px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px; 
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto; 
 }
 
 select:focus {
-    outline: none; /* Focus durumunda outline kaldır */
-    border-color: #84ae8a; /* Focus durumunda kenarlık rengi */
+    outline: none; 
+    border-color: #84ae8a; 
 }

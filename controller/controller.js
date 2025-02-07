@@ -1,22 +1,19 @@
-const dbConn = require('../db/db_connection'); // db_connection.js dosyasını dahil edin
+const dbConn = require('../db/db_connection'); 
 
-// /api/stats endpoint'i için kontrol fonksiyonu
 exports.getStats = async (req, res) => {
     try {
         console.log(`API /api/stats çağrıldı`);
 
-        // Statik sorgular
-        const [results1] = await dbConn.query('SELECT SUM(adet) AS totalOrders FROM siparisler'); // Toplam sipariş adedi
-        const [results2] = await dbConn.query('SELECT COUNT(forma_id) AS totalForms FROM formalar'); // Toplam forma sayısı
-        const [results3] = await dbConn.query('SELECT SUM(fiyat) AS totalIncome FROM siparisler WHERE YEAR(tarih) = 2024'); // 2024 yılı geliri
+        const [results1] = await dbConn.query('SELECT SUM(adet) AS totalOrders FROM siparisler'); 
+        const [results2] = await dbConn.query('SELECT COUNT(forma_id) AS totalForms FROM formalar'); 
+        const [results3] = await dbConn.query('SELECT SUM(fiyat) AS totalIncome FROM siparisler WHERE YEAR(tarih) = 2024'); 
 
         console.log("Veritabanı sorgu sonuçları:", results1, results2, results3);
 
-        // JSON döndür
         res.json({
-            totalOrders: results1[0].totalOrders || 0, // Toplam sipariş adedi
-            totalForms: results2[0].totalForms || 0,   // Toplam forma sayısı
-            totalIncome: results3[0].totalIncome || 0 // 2024 yılı geliri
+            totalOrders: results1[0].totalOrders || 0, 
+            totalForms: results2[0].totalForms || 0,   
+            totalIncome: results3[0].totalIncome || 0 
         });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);
@@ -24,9 +21,8 @@ exports.getStats = async (req, res) => {
     }
 };
 
-// /api/sales endpoint'i için kontrol fonksiyonu
 exports.getSales = async (req, res) => {
-    const year = req.query.year || new Date().getFullYear(); // Yıl parametresini al, yoksa mevcut yılı kullan
+    const year = req.query.year || new Date().getFullYear(); 
     try {
         console.log(`API /api/sales çağrıldı, yıl: ${year}`);
         const [monthlySalesResults] = await dbConn.query(
@@ -34,7 +30,6 @@ exports.getSales = async (req, res) => {
             [year]
         );
 
-        // Aylık satış verilerini hazırlayın
         const monthlySales = Array(12).fill(0);
         monthlySalesResults.forEach(row => {
             monthlySales[row.month - 1] = row.sales;
@@ -48,9 +43,8 @@ exports.getSales = async (req, res) => {
     }
 };
 
-// /api/income endpoint'i için kontrol fonksiyonu
 exports.getIncome = async (req, res) => {
-    const year = req.query.year || new Date().getFullYear(); // Yıl parametresini al, yoksa mevcut yılı kullan
+    const year = req.query.year || new Date().getFullYear(); 
     try {
         console.log(`API /api/income çağrıldı, yıl: ${year}`);
         const [monthlyIncomeResults] = await dbConn.query(
@@ -58,7 +52,6 @@ exports.getIncome = async (req, res) => {
             [year]
         );
 
-        // Aylık gelir verilerini hazırlayın
         const monthlyIncome = Array(12).fill(0);
         monthlyIncomeResults.forEach(row => {
             monthlyIncome[row.month - 1] = row.income;
@@ -72,7 +65,6 @@ exports.getIncome = async (req, res) => {
     }
 };
 
-// /api/login endpoint'i için kontrol fonksiyonu
 exports.login = async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -88,7 +80,6 @@ exports.login = async (req, res) => {
     }
 };
 
-// /api/user endpoint'i için kontrol fonksiyonu
 exports.getUser = async (req, res) => {
     try {
         const [results] = await dbConn.query('SELECT ad, soyad FROM kullanici WHERE kullanici_adi = ?', [req.query.username]);
@@ -104,7 +95,7 @@ exports.getUser = async (req, res) => {
 };
 
 exports.getTeamSales = async (req, res) => {
-    const year = req.query.year || new Date().getFullYear(); // Yıl parametresini al, yoksa mevcut yılı kullan
+    const year = req.query.year || new Date().getFullYear(); 
     try {
         const [results] = await dbConn.query('SELECT takim_ad, SUM(adet) AS sales FROM takimlar LEFT JOIN formalar ON takimlar.takim_id=formalar.takim_id LEFT JOIN siparisler ON formalar.forma_id=siparisler.forma_id WHERE YEAR(siparisler.tarih) = ? GROUP BY takim_ad', [year]);
         const teams = results.map(row => row.takim_ad);
@@ -133,7 +124,7 @@ exports.getPieChartData = async (req, res) => {
         const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN sube ON sube.il_id=iller.il_id LEFT JOIN siparisler ON siparisler.il_id=iller.il_id GROUP BY iller.il_id ORDER BY toplam DESC');
         console.log("Sorgu Sonuçları:", results);
         const labels = results.map(row => row.sehir);
-        const values = results.map(row => parseInt(row.toplam, 10)); // Verileri int'e çevir
+        const values = results.map(row => parseInt(row.toplam, 10)); 
         res.json({ labels, values });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);
@@ -143,11 +134,10 @@ exports.getPieChartData = async (req, res) => {
 
 exports.getNewPieChartData = async (req, res) => {
     try {
-        // Veritabanı sorgusunu buraya yazın
         const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN sube ON sube.il_id=iller.il_id LEFT JOIN siparisler ON siparisler.il_id=iller.il_id WHERE sube.sube_id IS NULL GROUP BY iller.il_id ORDER BY toplam DESC');
         console.log("Sorgu Sonuçları:", results);
         const labels = results.map(row => row.sehir);
-        const values = results.map(row => parseInt(row.toplam, 10)); // Verileri int'e çevir
+        const values = results.map(row => parseInt(row.toplam, 10)); 
         res.json({ labels, values });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);
@@ -156,12 +146,12 @@ exports.getNewPieChartData = async (req, res) => {
 };
 
 exports.getCitySalesData = async (req, res) => {
-    const year = req.query.year; // Yıl parametresini al
+    const year = req.query.year; 
     try {
         const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN siparisler ON siparisler.il_id=iller.il_id WHERE YEAR(siparisler.tarih) = ? GROUP BY iller.il_id', [year]);
         console.log("Sorgu Sonuçları:", results);
         const labels = results.map(row => row.sehir);
-        const values = results.map(row => parseInt(row.toplam, 10)); // Verileri int'e çevir
+        const values = results.map(row => parseInt(row.toplam, 10)); 
         res.json({ labels, values });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);
@@ -170,12 +160,12 @@ exports.getCitySalesData = async (req, res) => {
 };
 
 exports.getCitySalesDataWithoutBranch = async (req, res) => {
-    const year = req.query.year; // Yıl parametresini al
+    const year = req.query.year;
     try {
         const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN siparisler ON siparisler.il_id=iller.il_id WHERE siparisler.sube_id IS NULL AND YEAR(siparisler.tarih) = ? GROUP BY iller.il_id ORDER BY toplam DESC', [year]);
         console.log("Sorgu Sonuçları:", results);
         const labels = results.map(row => row.sehir);
-        const values = results.map(row => parseInt(row.toplam, 10)); // Verileri int'e çevir
+        const values = results.map(row => parseInt(row.toplam, 10)); 
         res.json({ labels, values });
     } catch (err) {
         console.error("Veritabanı sorgu hatası:", err);
@@ -188,9 +178,8 @@ exports.getCitySalesPrediction = async (req, res) => {
         const [results] = await dbConn.query('SELECT iller.sehir, SUM(siparisler.adet) AS toplam FROM iller LEFT JOIN siparisler ON siparisler.il_id=iller.il_id WHERE YEAR(siparisler.tarih) = 2024 GROUP BY iller.il_id ORDER BY toplam DESC');
         console.log("Sorgu Sonuçları:", results);
         const labels = results.map(row => row.sehir);
-        const values2024 = results.map(row => parseInt(row.toplam, 10)); // 2024 verilerini int'e çevir
+        const values2024 = results.map(row => parseInt(row.toplam, 10)); 
 
-        // Basit bir tahmin algoritması: Her ilin satışlarını %10 artırarak tahmin yapalım
         const predictedValues = values2024.map(value => Math.round(value * 1.1));
 
         res.json({ labels, values2024, predictedValues });
@@ -201,14 +190,13 @@ exports.getCitySalesPrediction = async (req, res) => {
 };
 
 exports.getCityMonthlySalesPrediction = async (req, res) => {
-    const city = req.query.city; // İl parametresini al
+    const city = req.query.city; 
     try {
         const [results] = await dbConn.query('SELECT MONTH(siparisler.tarih) AS ay, SUM(siparisler.adet) AS toplam FROM siparisler LEFT JOIN iller ON siparisler.il_id=iller.il_id WHERE iller.sehir = ? AND YEAR(siparisler.tarih) = 2024 GROUP BY ay ORDER BY ay', [city]);
         console.log("Sorgu Sonuçları:", results);
         const labels = results.map(row => `Ay ${row.ay}`);
-        const values2024 = results.map(row => parseInt(row.toplam, 10)); // 2024 verilerini int'e çevir
+        const values2024 = results.map(row => parseInt(row.toplam, 10)); 
 
-        // Basit bir tahmin algoritması: Her ayın satışlarını %0 artırarak tahmin yapalım (varsayılan)
         const predictedValues = values2024.map(value => Math.round(value * 1.0));
 
         res.json({ labels, values2024, predictedValues });
